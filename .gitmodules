@@ -1,0 +1,6 @@
+[submodule "Stellar"]
+	path = Stellar
+	url = https://github.com/BenjaminHCheung/Stellar
+[submodule "libs/Stellar"]
+	path = libs/Stellar
+	url = https://github.com/BenjaminHCheung/Stellar
