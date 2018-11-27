@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindowform.h"
 #include "osgwidget.h"
-#include "settings.h"
 
 #include <QDockWidget>
 #include <QToolBar>
@@ -13,27 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     mMainWindowUI->setupUi(this);
 
-    mDockWidget = new QDockWidget("Settings",this);
-    this->addDockWidget(Qt::LeftDockWidgetArea,mDockWidget);
-    mSettings = new Settings(this);
-    mDockWidget->setWidget(mSettings);
-
     mOSGWidget = new OSGWidget{this};
     this->setCentralWidget(mOSGWidget);
-
-    create_toolbar();
-
-    connect(this, SIGNAL(update_simulation()), mSettings, SLOT(transfer_data()));
-    connect(mSettings, SIGNAL(settings_data(unsigned int,
-                                           double, double, double,
-                                           double, double, double,
-                                           double, double, double,
-                                           double, double, double))
-            , mOSGWidget, SLOT(apply_settings(unsigned int,
-                                              double, double, double,
-                                              double, double, double,
-                                              double, double, double,
-                                              double, double, double)));
 }
 
 void MainWindow::update_settings()

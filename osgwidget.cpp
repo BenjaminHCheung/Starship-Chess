@@ -15,10 +15,7 @@
 #include <vector>
 #include <string>
 
-#include "wireframe_cube.h"
 #include "sphereupdatecallback.h"
-
-#include <iostream>
 
 OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     QOpenGLWidget{ parent,flags },
@@ -29,10 +26,8 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     , mViewer{ new osgViewer::CompositeViewer }
     , mView{ new osgViewer::View }
     , mRoot{ new osg::Group }
-    , mPhysicsSpace{ new PhysicsSpace}
+    , mSpaceBoard{ new SpaceBoard}
 {
-    mPhysicsSpace->create_physics_objects();
-
     int viewPortX{ 0 };
     int viewPortY{ 0 };
     osg::Camera* camera{ generate_camera_viewport(viewPortX, viewPortY) };
@@ -52,9 +47,7 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     generate_trackball_manipulator(positionEye, positionCenter, upVector);
     setup_threads();
 
-    generate_cube_wireframe();
-
-    draw_object_list();
+    draw_position_nodes();
 
     int xMinimumSize{100};
     int yMinimumSize{100};
@@ -77,29 +70,6 @@ OSGWidget::~OSGWidget()
 void OSGWidget::set_pause(bool pause)
 {
     mPause = pause;
-}
-
-void OSGWidget::apply_settings(unsigned int numberOfObjects,
-                     double xGravity, double yGravity, double zGravity,
-                     double fluidDensity, double maxRadius, double minRadius,
-                     double massMax, double massMin, double CrMax,
-                     double CrMin, double velocityMax, double velocityMin)
-{
-    mRoot->removeChildren(0, mRoot->getNumChildren());
-    generate_cube_wireframe();
-    mPhysicsSpace->set_number_of_objects(numberOfObjects);
-    mPhysicsSpace->set_gravity(xGravity, yGravity, zGravity);
-    mPhysicsSpace->set_fluid_density(fluidDensity);
-    mPhysicsSpace->set_max_radius(maxRadius);
-    mPhysicsSpace->set_min_radius(minRadius);
-    mPhysicsSpace->set_max_mass(massMax);
-    mPhysicsSpace->set_min_mass(massMin);
-    mPhysicsSpace->set_max_Cr(CrMax);
-    mPhysicsSpace->set_min_Cr(CrMin);
-    mPhysicsSpace->set_velocity_max(velocityMax);
-    mPhysicsSpace->set_velocity_min(velocityMin);
-    mPhysicsSpace->update_after_change();
-    draw_object_list();
 }
 
 void OSGWidget::timerEvent(QTimerEvent *)
@@ -347,10 +317,10 @@ void OSGWidget::set_stateSet_mode(osg::StateSet* stateSet, osg::Material* materi
     stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::ON );
 }
 
-void OSGWidget::transform_sphere(osg::Geode* geode, SphereObject* physicsObject)
+void OSGWidget::transform_sphere(osg::Geode* geode, PositionNodes* positionNode)
 {
     osg::PositionAttitudeTransform *transform = new osg::PositionAttitudeTransform;
-    transform->setUpdateCallback(new SphereUpdateCallback(physicsObject));
+    transform->setUpdateCallback(new SphereUpdateCallback(positionNode));
     transform->addChild(geode);
     mRoot->addChild(transform);
 }
@@ -378,39 +348,45 @@ void OSGWidget::update_widget()
     }
     else
     {
-    mPhysicsSpace->timestep_object_list();
     this->update();
     }
 }
 
-void OSGWidget::generate_cube_wireframe()
+void OSGWidget::draw_position_nodes()
 {
-    osg::Vec4 cubeColorRGBA{osg::Vec4(1.f, 1.f, 1.f, 1.f)};
-    wireframe_cube* cubeFrame = new wireframe_cube;
-    osg::Geode* cubeGeode = cubeFrame->create_wireframe_cube(cubeColorRGBA);
-    mRoot->addChild(cubeGeode);
-}
+    double nodeRadius{.15};
 
-void OSGWidget::draw_object_list()
-{
-    std::vector<SphereObject*> objectList{mPhysicsSpace->get_object_list()};
-    unsigned int listSize{mPhysicsSpace->get_objectlist_size()};
-    for(unsigned int incrementor{0}; incrementor < listSize; incrementor++)
+    int length{mSpaceBoard->get_board_length()};
+    int width{mSpaceBoard->get_board_width()};
+    int height{mSpaceBoard->get_board_height()};
+
+    for(int lengthIterator{0}; lengthIterator < length; lengthIterator++)
     {
-        SphereObject* myObject{objectList[incrementor]};
-        osg::Vec3 sphereOrigin{ osg::Vec3(0.f, 0.f, 0.f)};
-        double sphereRadius{myObject->get_radius()};
-        osg::ShapeDrawable* drawnSphere{generate_new_sphere(sphereOrigin, sphereRadius)};
+        for(int widthIterator{0}; widthIterator < width; widthIterator++)
+        {
+            for(int heightIterator{0}; heightIterator < height; heightIterator++)
+            {
+                PositionNodes* currentNode{mSpaceBoard->get_node_pointer(lengthIterator,widthIterator,heightIterator)};
+                Vector3d position{currentNode->get_position()};
+                osg::Vec3 sphereOrigin{ osg::Vec3(position.get_x_value(),
+                                                  position.get_y_value(),
+                                                  position.get_z_value())};
+                osg::ShapeDrawable* drawnSphere{generate_new_sphere(sphereOrigin, nodeRadius)};
 
-        double* color{myObject->get_color()};
-        osg::Vec4 sphereColorRGBA{ osg::Vec4(color[0], color[1], color[2], 1.f) };
-        change_object_color(drawnSphere, sphereColorRGBA);
+                double* color{currentNode->get_color()};
+                osg::Vec4 nodeColorRGBA{ osg::Vec4(color[0],
+                                       color[1],
+                                       color[2],
+                                       1.0f)};
+                change_object_color(drawnSphere, nodeColorRGBA);
 
-        osg::Geode* geode{create_geometric_node(drawnSphere)};
-        osg::StateSet* stateSet{create_state_set(geode)};
-        osg::Material* material{create_material()};
-        set_stateSet_mode(stateSet, material);
+                osg::Geode* geode(create_geometric_node(drawnSphere));
+                osg::StateSet* stateSet(create_state_set(geode));
+                osg::Material* material{create_material()};
+                set_stateSet_mode(stateSet, material);
 
-        transform_sphere(geode, myObject);
+                transform_sphere(geode, currentNode);
+            }
+        }
     }
 }

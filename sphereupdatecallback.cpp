@@ -1,15 +1,14 @@
 #include "sphereupdatecallback.h"
 
-SphereUpdateCallback::SphereUpdateCallback(PhysicsObject* physicsObject)
+SphereUpdateCallback::SphereUpdateCallback(PositionNodes* positionNode)
 {
-    mPhysicsObject = physicsObject;
+    mPositionNode = positionNode;
 }
 
 void SphereUpdateCallback::operator()(osg::Node* node, osg::NodeVisitor* nodevisitor)
 {
-    Vector3d newPosition{mPhysicsObject->get_position()};
-    osg::Vec3d position(newPosition.get_x_value(),newPosition.get_y_value(),newPosition.get_z_value());
-    osg::PositionAttitudeTransform *pat = dynamic_cast<osg::PositionAttitudeTransform *>(node);
-    pat->setPosition(position);
+    //double* newColor{mPositionNode->get_color()};
+    //osg::Vec4 color{osg::Vec4(newColor[0], newColor[1], newColor[2], 1.0f)};
+    //Need to add color change
     traverse(node, nodevisitor);
 }

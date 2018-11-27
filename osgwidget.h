@@ -14,7 +14,7 @@
 #include <osg/Material>
 #include <string>
 
-#include "physicsspace.h"
+#include "spaceboard.h"
 
 class OSGWidget : public QOpenGLWidget
 {
@@ -27,13 +27,6 @@ public:
   virtual ~OSGWidget();
 
   void set_pause(bool pause);
-
-public slots:
-  void apply_settings(unsigned int numberOfObjects,
-                       double xGravity, double yGravity, double zGravity,
-                       double fluidDensity, double maxRadius, double minRadius,
-                       double massMax, double massMin, double CrMax,
-                       double CrMin, double velocityMax, double velocityMin);
 
 protected:
   void timerEvent(QTimerEvent *);
@@ -60,8 +53,8 @@ private:
   osg::ref_ptr<osgViewer::View> mView;
   osg::ref_ptr<osg::Group> mRoot;
   int mTimerId{0};
-  PhysicsSpace* mPhysicsSpace;
   bool mPause{true};
+  SpaceBoard* mSpaceBoard;
 
   osg::Camera* generate_camera_viewport(int viewPortX, int viewPortY);
 	  void change_camera_color_and_transparency(osg::Camera* camera, osg::Vec4 clearColor);
@@ -76,14 +69,13 @@ private:
 	  osg::StateSet* create_state_set(osg::Geode* geode);
 	  osg::Material* create_material();
       void set_stateSet_mode(osg::StateSet* stateSet, osg::Material* material);
-      void transform_sphere(osg::Geode* geode, SphereObject* physicsObject);
+      void transform_sphere(osg::Geode* geode, PositionNodes* positionNode);
       void add_child_to_root(osg::Geode* geode);
       void set_widget_focus_policy();
       void set_widget_minimum_size(int xMinimumSize, int yMinimumSize);
       void set_mouse_tracking_on();
       void update_widget();
-      void generate_cube_wireframe();
-      void draw_object_list();
+      void draw_position_nodes();
 };
 
 #endif

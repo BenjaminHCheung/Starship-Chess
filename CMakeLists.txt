@@ -14,13 +14,13 @@ SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_AUTORCC ON)
 
-#IF (NOT TARGET object-physics)
-#    #git submodule add "GitHub path to your Palindrome Library"
-#    #git submodule update --init --recursive
-# 
-#    add_subdirectory(libs/Physics)
-#    INCLUDE_DIRECTORIES(libs/Physics)
-#ENDIF()
+IF (NOT TARGET object-physics)
+    #git submodule add "GitHub path to your Palindrome Library"
+    #git submodule update --init --recursive
+
+    add_subdirectory(libs/Stellar)
+    INCLUDE_DIRECTORIES(libs/Stellar)
+ENDIF()
 
 
 SET(MYSOURCE
