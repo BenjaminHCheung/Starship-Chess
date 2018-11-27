@@ -16,6 +16,7 @@
 #include <string>
 
 #include "sphereupdatecallback.h"
+#include "vector3d.h"
 
 OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     QOpenGLWidget{ parent,flags },
