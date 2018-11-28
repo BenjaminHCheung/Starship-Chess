@@ -69,13 +69,15 @@ private:
 	  osg::StateSet* create_state_set(osg::Geode* geode);
 	  osg::Material* create_material();
       void set_stateSet_mode(osg::StateSet* stateSet, osg::Material* material);
-      void transform_sphere(osg::Geode* geode, PositionNodes* positionNode);
+      void transform_sphere(osg::Geode* geode);
       void add_child_to_root(osg::Geode* geode);
       void set_widget_focus_policy();
       void set_widget_minimum_size(int xMinimumSize, int yMinimumSize);
       void set_mouse_tracking_on();
       void update_widget();
+
       void draw_position_nodes();
+      void draw_position_grid(int length, int width, int height);
 };
 
 #endif

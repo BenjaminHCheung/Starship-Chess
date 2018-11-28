@@ -16,7 +16,6 @@
 #include <string>
 
 #include "sphereupdatecallback.h"
-#include "vector3d.h"
 
 OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     QOpenGLWidget{ parent,flags },
@@ -292,13 +291,6 @@ void OSGWidget::change_object_color(osg::ShapeDrawable* drawnObject, osg::Vec4 s
     drawnObject->setColor( shapeColor );
 }
 
-osg::Geode* OSGWidget::create_geometric_node(osg::ShapeDrawable * drawnObject)
-{
-    osg::Geode* geode = new osg::Geode;
-    geode->addDrawable( drawnObject );
-    return geode;
-}
-
 osg::StateSet* OSGWidget::create_state_set(osg::Geode* geode)
 {
     osg::StateSet* stateSet = geode->getOrCreateStateSet();
@@ -318,10 +310,10 @@ void OSGWidget::set_stateSet_mode(osg::StateSet* stateSet, osg::Material* materi
     stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::ON );
 }
 
-void OSGWidget::transform_sphere(osg::Geode* geode, PositionNodes* positionNode)
+void OSGWidget::transform_sphere(osg::Geode* geode)
 {
     osg::PositionAttitudeTransform *transform = new osg::PositionAttitudeTransform;
-    transform->setUpdateCallback(new SphereUpdateCallback(positionNode));
+    transform->setUpdateCallback(new SphereUpdateCallback(mSpaceBoard));
     transform->addChild(geode);
     mRoot->addChild(transform);
 }
@@ -355,11 +347,21 @@ void OSGWidget::update_widget()
 
 void OSGWidget::draw_position_nodes()
 {
-    double nodeRadius{.15};
+    double nodeRadius{.05};
+    float transparancy{.1};
+
+    osg::Geode* positionGeode = new osg::Geode;
 
     int length{mSpaceBoard->get_board_length()};
     int width{mSpaceBoard->get_board_width()};
     int height{mSpaceBoard->get_board_height()};
+
+    osg::Vec3 sphereOrigin{ osg::Vec3(0.f, 0.f, 0.f)};
+    osg::ShapeDrawable* drawnSphere{generate_new_sphere(sphereOrigin, .8f)};
+
+    osg::Vec4 nodeColorRGBA{ osg::Vec4(1.0f, 1.0f, 0.f, 1.0f)};
+    change_object_color(drawnSphere, nodeColorRGBA);
+    positionGeode->addDrawable(drawnSphere);
 
     for(int lengthIterator{0}; lengthIterator < length; lengthIterator++)
     {
@@ -369,25 +371,29 @@ void OSGWidget::draw_position_nodes()
             {
                 PositionNodes* currentNode{mSpaceBoard->get_node_pointer(lengthIterator,widthIterator,heightIterator)};
                 Vector3d position{currentNode->get_position()};
-                osg::Vec3 sphereOrigin{ osg::Vec3(position.get_x_value(),
+                osg::Vec3 sphereOrigin( osg::Vec3(position.get_x_value(),
                                                   position.get_y_value(),
-                                                  position.get_z_value())};
+                                                  position.get_z_value()));
                 osg::ShapeDrawable* drawnSphere{generate_new_sphere(sphereOrigin, nodeRadius)};
 
                 double* color{currentNode->get_color()};
                 osg::Vec4 nodeColorRGBA{ osg::Vec4(color[0],
                                        color[1],
                                        color[2],
-                                       1.0f)};
+                                       transparancy)};
                 change_object_color(drawnSphere, nodeColorRGBA);
-
-                osg::Geode* geode(create_geometric_node(drawnSphere));
-                osg::StateSet* stateSet(create_state_set(geode));
-                osg::Material* material{create_material()};
-                set_stateSet_mode(stateSet, material);
-
-                transform_sphere(geode, currentNode);
+                positionGeode->addDrawable(drawnSphere);
             }
         }
     }
+    osg::StateSet* stateSet(create_state_set(positionGeode));
+    osg::Material* material{create_material()};
+    set_stateSet_mode(stateSet, material);
+
+    transform_sphere(positionGeode);
+}
+
+void OSGWidget::draw_position_grid(int length, int width, int height)
+{
+
 }

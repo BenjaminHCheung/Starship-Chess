@@ -4,15 +4,16 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/NodeVisitor>
 #include <osg/Node>
-#include "positionnodes.h"
+
+#include "spaceboard.h"
 
 class SphereUpdateCallback: public osg::NodeCallback
 {
 public:
-    SphereUpdateCallback(PositionNodes* positionNode);
+    SphereUpdateCallback(SpaceBoard* spaceBoard);
     virtual void operator()(osg::Node* node, osg::NodeVisitor* nodevisitor);
 protected:
-    PositionNodes* mPositionNode;
+    SpaceBoard* mSpaceBoard;
 };
 
 #endif // SPHEREUPDATECALLBACK_H
