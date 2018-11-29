@@ -48,6 +48,7 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     setup_threads();
 
     draw_position_nodes();
+    draw_position_grid();
 
     int xMinimumSize{100};
     int yMinimumSize{100};
@@ -399,32 +400,112 @@ void OSGWidget::draw_position_grid()
     int width{mSpaceBoard->get_board_width()};
     int height{mSpaceBoard->get_board_height()};
 
-    int xSize{length * 3};
-    int ySize{width * 3};
-    int zSize{height * 3};
+    osg::Geometry* geom = new osg::Geometry;
 
-    osg::Vec3Array* xVertexArray = new osg::Vec3Array;
-    osg::Vec3Array* yVertexArray = new osg::Vec3Array;
-    osg::Vec3Array* zVertexArray = new osg::Vec3Array;
-    xVertexArray->resize( xSize );
-    yVertexArray->resize( ySize );
-    zVertexArray->resize( zSize );
+    int totalNodes{length + width + height};
+    int totalVertecies{totalNodes * 3};
+    osg::Vec3Array* vertexArray = new osg::Vec3Array;
+    vertexArray->resize(totalVertecies);
+
+    osg::Vec4 color{osg::Vec4(1.f, 1.f, 1.f, 1.f)};
+    osg::Vec4Array* cubeColor = new osg::Vec4Array;
+    cubeColor->push_back(color);
+    geom->setColorArray(cubeColor, osg::Array::BIND_OVERALL);
 
     for (int xIterator{0}; xIterator < length; xIterator++)
     {
-        PositionNodes* primaryNode{mSpaceBoard->get_node_pointer(xIterator, 0, 0)};
-        (*xVertexArray)[xIterator*3].set(primaryNode->get_position().get_x_value(),
-                                         primaryNode->get_position().get_y_value(),
-                                         primaryNode->get_position().get_z_value());
-
-        PositionNodes* secondaryNode{mSpaceBoard->get_node_pointer(xIterator, (width - 1), 0)};
-        (*xVertexArray)[xIterator*3+1].set(secondaryNode->get_position().get_x_value(),
-                                           secondaryNode->get_position().get_y_value(),
-                                           secondaryNode->get_position().get_z_value());
-
-        PositionNodes* tertiaryNode{mSpaceBoard->get_node_pointer(xIterator, 0, (height - 1))};
-        (*xVertexArray)[xIterator*3+2].set(tertiaryNode->get_position().get_x_value(),
-                                           tertiaryNode->get_position().get_y_value(),
-                                           tertiaryNode->get_position().get_z_value());
+        add_x_line_to_grid(vertexArray, geom, xIterator, width, height);
     }
+    for (int yIterator{0}; yIterator < width; yIterator++)
+    {
+        add_y_line_to_grid(vertexArray, geom, yIterator, length, height);
+    }
+    for (int zIterator{0}; zIterator < height; zIterator++)
+    {
+        add_z_line_to_grid(vertexArray, geom, zIterator, length, width);
+    }
+
+    geom->setVertexArray(vertexArray);
+
+    for (int iterator{0}; iterator < totalNodes; iterator++)
+    {
+        int primaryPosition{iterator * 3};
+        int secondaryPosition{(iterator * 3) + 1};
+        int tertiaryPosition{(iterator * 3) + 2};
+        GLushort idxLines[4] = {primaryPosition, secondaryPosition, primaryPosition, tertiaryPosition};
+        geom->addPrimitiveSet(new osg::DrawElementsUShort(osg::PrimitiveSet::LINES, 4, idxLines));
+    }
+
+    osg::Geode* geode = new osg::Geode;
+
+    geode->addDrawable(geom);
+    geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::PROTECTED );
+    geode->getOrCreateStateSet()->setMode( GL_DEPTH_TEST, osg::StateAttribute::ON );
+    mRoot->addChild(geode);
+}
+
+void OSGWidget::add_x_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int yMax, int zMax)
+{
+    int primaryPosition{iterator * 3};
+    int secondaryPosition{iterator * 3 + 1};
+    int tertiaryPosition{iterator * 3 + 2};
+
+    PositionNodes* primaryNode{mSpaceBoard->get_node_pointer(iterator, 0, 0)};
+    (*vertexArray)[primaryPosition].set(primaryNode->get_position().get_x_value(),
+                                        primaryNode->get_position().get_y_value(),
+                                        primaryNode->get_position().get_z_value());
+
+    PositionNodes* secondaryNode{mSpaceBoard->get_node_pointer(iterator, (yMax-1), 0)};
+    (*vertexArray)[secondaryPosition].set(secondaryNode->get_position().get_x_value(),
+                                          secondaryNode->get_position().get_y_value(),
+                                          secondaryNode->get_position().get_z_value());
+
+    PositionNodes* tertiaryNode{mSpaceBoard->get_node_pointer(iterator, 0, (zMax - 1))};
+    (*vertexArray)[tertiaryPosition].set(tertiaryNode->get_position().get_x_value(),
+                                         tertiaryNode->get_position().get_y_value(),
+                                         tertiaryNode->get_position().get_z_value());
+}
+
+void OSGWidget::add_y_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int xMax, int zMax)
+{
+    int primaryPosition{(iterator + xMax) * 3};
+    int secondaryPosition{(iterator + xMax) * 3 + 1};
+    int tertiaryPosition{(iterator + xMax) * 3 + 2};
+
+    PositionNodes* primaryNode{mSpaceBoard->get_node_pointer(0, iterator, 0)};
+    (*vertexArray)[primaryPosition].set(primaryNode->get_position().get_x_value(),
+                                        primaryNode->get_position().get_y_value(),
+                                        primaryNode->get_position().get_z_value());
+
+    PositionNodes* secondaryNode{mSpaceBoard->get_node_pointer((xMax - 1), iterator, 0)};
+    (*vertexArray)[secondaryPosition].set(secondaryNode->get_position().get_x_value(),
+                                          secondaryNode->get_position().get_y_value(),
+                                          secondaryNode->get_position().get_z_value());
+
+    PositionNodes* tertiaryNode{mSpaceBoard->get_node_pointer(0, iterator, (zMax - 1))};
+    (*vertexArray)[tertiaryPosition].set(tertiaryNode->get_position().get_x_value(),
+                                         tertiaryNode->get_position().get_y_value(),
+                                         tertiaryNode->get_position().get_z_value());
+}
+
+void OSGWidget::add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int xMax, int yMax)
+{
+    int primaryPosition{(iterator + xMax + yMax) * 3};
+    int secondaryPosition{(iterator + xMax + yMax) * 3 + 1};
+    int tertiaryPosition{(iterator + xMax + yMax) * 3 + 2};
+
+    PositionNodes* primaryNode{mSpaceBoard->get_node_pointer(0, 0, iterator)};
+    (*vertexArray)[primaryPosition].set(primaryNode->get_position().get_x_value(),
+                                        primaryNode->get_position().get_y_value(),
+                                        primaryNode->get_position().get_z_value());
+
+    PositionNodes* secondaryNode{mSpaceBoard->get_node_pointer((xMax - 1), 0, iterator)};
+    (*vertexArray)[secondaryPosition].set(secondaryNode->get_position().get_x_value(),
+                                          secondaryNode->get_position().get_y_value(),
+                                          secondaryNode->get_position().get_z_value());
+
+    PositionNodes* tertiaryNode{mSpaceBoard->get_node_pointer(0, (yMax - 1), iterator)};
+    (*vertexArray)[tertiaryPosition].set(tertiaryNode->get_position().get_x_value(),
+                                         tertiaryNode->get_position().get_y_value(),
+                                         tertiaryNode->get_position().get_z_value());
 }
