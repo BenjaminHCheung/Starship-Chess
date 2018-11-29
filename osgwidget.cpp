@@ -393,7 +393,38 @@ void OSGWidget::draw_position_nodes()
     transform_sphere(positionGeode);
 }
 
-void OSGWidget::draw_position_grid(int length, int width, int height)
+void OSGWidget::draw_position_grid()
 {
+    int length{mSpaceBoard->get_board_length()};
+    int width{mSpaceBoard->get_board_width()};
+    int height{mSpaceBoard->get_board_height()};
 
+    int xSize{length * 3};
+    int ySize{width * 3};
+    int zSize{height * 3};
+
+    osg::Vec3Array* xVertexArray = new osg::Vec3Array;
+    osg::Vec3Array* yVertexArray = new osg::Vec3Array;
+    osg::Vec3Array* zVertexArray = new osg::Vec3Array;
+    xVertexArray->resize( xSize );
+    yVertexArray->resize( ySize );
+    zVertexArray->resize( zSize );
+
+    for (int xIterator{0}; xIterator < length; xIterator++)
+    {
+        PositionNodes* primaryNode{mSpaceBoard->get_node_pointer(xIterator, 0, 0)};
+        (*xVertexArray)[xIterator*3].set(primaryNode->get_position().get_x_value(),
+                                         primaryNode->get_position().get_y_value(),
+                                         primaryNode->get_position().get_z_value());
+
+        PositionNodes* secondaryNode{mSpaceBoard->get_node_pointer(xIterator, (width - 1), 0)};
+        (*xVertexArray)[xIterator*3+1].set(secondaryNode->get_position().get_x_value(),
+                                           secondaryNode->get_position().get_y_value(),
+                                           secondaryNode->get_position().get_z_value());
+
+        PositionNodes* tertiaryNode{mSpaceBoard->get_node_pointer(xIterator, 0, (height - 1))};
+        (*xVertexArray)[xIterator*3+2].set(tertiaryNode->get_position().get_x_value(),
+                                           tertiaryNode->get_position().get_y_value(),
+                                           tertiaryNode->get_position().get_z_value());
+    }
 }

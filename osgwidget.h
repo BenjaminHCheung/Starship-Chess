@@ -77,7 +77,7 @@ private:
       void update_widget();
 
       void draw_position_nodes();
-      void draw_position_grid(int length, int width, int height);
+      void draw_position_grid();
 };
 
 #endif
