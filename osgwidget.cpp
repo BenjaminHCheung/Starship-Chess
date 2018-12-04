@@ -42,7 +42,7 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     change_graphics_context(camera);
     setup_mView_with_camera(camera);
 
-    osg::Vec3d positionEye{osg::Vec3d(0.0,25.0,3.0)};
+    osg::Vec3d positionEye{osg::Vec3d(0.0,22.0,3.0)};
     osg::Vec3d positionCenter{osg::Vec3d(0,0,0)};
     osg::Vec3d upVector{osg::Vec3d(0,0,1)};
     generate_trackball_manipulator(positionEye, positionCenter, upVector);
@@ -50,7 +50,7 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
 
     draw_position_nodes();
     draw_position_grid();
-    mRoot->addChild(createPlanet(.5, "", mSpaceBoard->get_node_pointer(5,5,5)));
+    mRoot->addChild(create_planet(.5, "", mSpaceBoard->get_node_pointer(0,0,0)));
 
     int xMinimumSize{100};
     int yMinimumSize{100};
@@ -589,6 +589,8 @@ osg::Geode* OSGWidget::create_planet(double radius, const std::string textureNam
             geodePlanet->getOrCreateStateSet()->setTextureAttributeAndModes( 0, tex2d, osg::StateAttribute::ON );
         }
     }
+
+    geodePlanet->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
 
     geodePlanet->addDrawable( planetSphere );
 
