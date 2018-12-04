@@ -8,6 +8,7 @@
 #include <osg/PositionAttitudeTransform>
 
 #include <osg/NodeVisitor>
+#include <osgDB/ReadFile>
 
 #include <QKeyEvent>
 #include <QPainter>
@@ -41,7 +42,7 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     change_graphics_context(camera);
     setup_mView_with_camera(camera);
 
-    osg::Vec3d positionEye{osg::Vec3d(0.0,-20.0,3.0)};
+    osg::Vec3d positionEye{osg::Vec3d(0.0,25.0,3.0)};
     osg::Vec3d positionCenter{osg::Vec3d(0,0,0)};
     osg::Vec3d upVector{osg::Vec3d(0,0,1)};
     generate_trackball_manipulator(positionEye, positionCenter, upVector);
@@ -49,6 +50,7 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
 
     draw_position_nodes();
     draw_position_grid();
+    mRoot->addChild(createPlanet(.5, "", mSpaceBoard->get_node_pointer(5,5,5)));
 
     int xMinimumSize{100};
     int yMinimumSize{100};
@@ -508,4 +510,87 @@ void OSGWidget::add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* g
     (*vertexArray)[tertiaryPosition].set(tertiaryNode->get_position().get_x_value(),
                                          tertiaryNode->get_position().get_y_value(),
                                          tertiaryNode->get_position().get_z_value());
+}
+
+osg::Geode* createPlanet(double radius, const std::string textureName, PositionNodes* position)
+{
+    osg::Geometry *planetSphere = new osg::Geometry;
+    osg::Vec3 center{osg::Vec3(position->get_position().get_x_value(),
+                               position->get_position().get_y_value(),
+                               position->get_position().get_z_value())};
+
+    osg::Vec4Array* colors = new osg::Vec4Array(1);
+    planetSphere->setColorArray(colors, osg::Array::BIND_OVERALL);
+
+    unsigned int numX{100};
+    unsigned int numY{50};
+    unsigned int numVertices{numX*numY};
+
+    osg::Vec3Array* coords = new osg::Vec3Array(numVertices);
+    planetSphere->setVertexArray(coords);
+
+    osg::Vec3Array* normals = new osg::Vec3Array(numVertices);
+    planetSphere->setNormalArray(normals, osg::Array::BIND_PER_VERTEX);
+
+    osg::Vec2Array* texcoords = new osg::Vec2Array(numVertices);
+    planetSphere->setTexCoordArray(0,texcoords);
+    planetSphere->setTexCoordArray(1,texcoords);
+
+    double delta_elevation = osg::PI / (double)(numY-1);
+    double delta_azim = 2.0*osg::PI / (double)(numX-1);
+    float delta_tx = 1.0 / (float)(numX-1);
+    float delta_ty = 1.0 / (float)(numY-1);
+
+    double elevation = -osg::PI*0.5;
+    float ty = 0.0;
+    unsigned int vert = 0;
+    unsigned j;
+    for(j=0; j<numY; ++j, elevation+=delta_elevation, ty+=delta_ty )
+    {
+        double azim = 0.0;
+        float tx = 0.0;
+        for(unsigned int i=0;
+            i<numX;
+            ++i, ++vert, azim+=delta_azim, tx+=delta_tx)
+        {
+            osg::Vec3 direction(cos(azim)*cos(elevation), sin(azim)*cos(elevation), sin(elevation));
+            (*coords)[vert].set(direction*radius + center);
+            (*normals)[vert].set(direction);
+            (*texcoords)[vert].set(tx,ty);
+        }
+    }
+
+    for(j=0; j<numY-1; ++j)
+    {
+        unsigned int curr_row = j*numX;
+        unsigned int next_row = curr_row+numX;
+        osg::DrawElementsUShort* elements = new osg::DrawElementsUShort(GL_QUAD_STRIP);
+        for(unsigned int i=0;
+            i<numX;
+            ++i)
+        {
+            elements->push_back(next_row + i);
+            elements->push_back(curr_row + i);
+        }
+        planetSphere->addPrimitiveSet(elements);
+    }
+
+
+    osg::Geode* geodePlanet = new osg::Geode();
+
+    if( !textureName.empty() )
+    {
+        osg::ref_ptr<osg::Image> image = osgDB::readRefImageFile( textureName );
+        if ( image )
+        {
+            osg::Texture2D* tex2d = new osg::Texture2D( image );
+            tex2d->setWrap( osg::Texture::WRAP_S, osg::Texture::REPEAT );
+            tex2d->setWrap( osg::Texture::WRAP_T, osg::Texture::REPEAT );
+            geodePlanet->getOrCreateStateSet()->setTextureAttributeAndModes( 0, tex2d, osg::StateAttribute::ON );
+        }
+    }
+
+    geodePlanet->addDrawable( planetSphere );
+
+    return( geodePlanet );
 }
