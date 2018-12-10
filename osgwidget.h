@@ -83,6 +83,8 @@ private:
       void add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int xMax, int yMax);
       osg::Geode* create_planet(double radius, const std::string textureName, PositionNodes* position);
       void build_object_lists();
+      void build_team_one_ship(int size, int xPosition, int yPosition, int zPosition);
+      void build_team_two_ship(int size, int xPosition, int yPosition, int zPosition);
 };
 
 #endif

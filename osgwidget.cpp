@@ -605,3 +605,14 @@ void OSGWidget::build_object_lists()
 
 
 }
+
+
+void OSGWidget::build_team_one_ship(int size, int xPosition, int yPosition, int zPosition)
+{
+
+}
+
+void OSGWidget::build_team_two_ship(int size, int xPosition, int yPosition, int zPosition)
+{
+
+}
