@@ -597,7 +597,11 @@ osg::Geode* OSGWidget::create_planet(double radius, const std::string textureNam
     return( geodePlanet );
 }
 
-    void OSGWidget::build_object_lists()
-    {
+void OSGWidget::build_object_lists()
+{
+    std::vector<Starship*>* teamOne{mSpaceBoard->get_team_one_ships()};
+    std::vector<Starship*>* teamTwo{mSpaceBoard->get_team_two_ships()};
+    std::vector<StellarBody*>* Planets{mSpaceBoard->get_stellar_body_lists()};
 
-    }
+
+}
