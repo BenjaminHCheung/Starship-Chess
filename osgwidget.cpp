@@ -9,6 +9,8 @@
 
 #include <osg/NodeVisitor>
 #include <osgDB/ReadFile>
+#include <osgDB/WriteFile>
+#include <osg/Texture2D>
 
 #include <QKeyEvent>
 #include <QPainter>
@@ -50,7 +52,7 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
 
     draw_position_nodes();
     draw_position_grid();
-    mRoot->addChild(create_planet(.5, "", mSpaceBoard->get_node_pointer(0,0,0)));
+    mRoot->addChild(create_planet(.5, "TextureMap.red_planet.jpg", mSpaceBoard->get_node_pointer(0,0,0)));
 
     int xMinimumSize{100};
     int yMinimumSize{100};
@@ -512,7 +514,7 @@ void OSGWidget::add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* g
                                          tertiaryNode->get_position().get_z_value());
 }
 
-osg::Geode* OSGWidget::create_planet(double radius, const std::string textureName, PositionNodes* position)
+osg::Geode* OSGWidget::create_planet(double radius, const std::string& textureName, PositionNodes* position)
 {
     osg::Geometry *planetSphere = new osg::Geometry;
     osg::Vec3 center{osg::Vec3(position->get_position().get_x_value(),
