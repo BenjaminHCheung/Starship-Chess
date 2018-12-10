@@ -596,3 +596,8 @@ osg::Geode* OSGWidget::create_planet(double radius, const std::string textureNam
 
     return( geodePlanet );
 }
+
+    void OSGWidget::build_object_lists()
+    {
+
+    }

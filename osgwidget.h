@@ -82,6 +82,7 @@ private:
       void add_y_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int xMax, int zMax);
       void add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int xMax, int yMax);
       osg::Geode* create_planet(double radius, const std::string textureName, PositionNodes* position);
+      void build_object_lists();
 };
 
 #endif
