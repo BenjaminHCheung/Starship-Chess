@@ -34,6 +34,8 @@ SET(MYSOURCE
     sphereupdatecallback.cpp
     )
 
+set( MYRESOURCES TextureMap)
+
 add_executable(${PROJECT_NAME}
     ${MYSOURCE}
     ${MYRESOURCES}
