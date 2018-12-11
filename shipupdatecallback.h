@@ -4,6 +4,8 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/NodeVisitor>
 #include <osg/Node>
+#include <osg/Geode>
+#include <osg/ShapeDrawable>
 #include "starship.h"
 
 class ShipUpdateCallback: public osg::NodeCallback
