@@ -32,6 +32,8 @@ SET(MYSOURCE
     osgwidget.cpp
     sphereupdatecallback.h
     sphereupdatecallback.cpp
+    shipupdatecallback.h
+    shipupdatecallback.cpp
     )
 
 add_executable(${PROJECT_NAME}
