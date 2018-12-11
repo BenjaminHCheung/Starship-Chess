@@ -17,6 +17,7 @@
 #include <string>
 
 #include "sphereupdatecallback.h"
+#include "shipupdatecallback.h"
 
 OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     QOpenGLWidget{ parent,flags },
@@ -627,9 +628,9 @@ void OSGWidget::build_ship(int size, PositionNodes* spawnPosition, osg::Vec4 col
     osg::ShapeDrawable* drawnShip{generate_new_sphere(position, radius)};
     change_object_color(drawnShip, colorRGBA);
 
-    osg::Geode* geode{create_geometric_node(drawnShip)};
-    osg::StateSet* stateSet{create_state_set(geode)};
-    osg::Material* material{create_material()};
-    set_stateSet_mode(stateSet, material);
+//    osg::Geode* geode{create_geometric_node(drawnShip)};
+//    osg::StateSet* stateSet{create_state_set(geode)};
+//    osg::Material* material{create_material()};
+//    set_stateSet_mode(stateSet, material);
 
 }

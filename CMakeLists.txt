@@ -36,6 +36,10 @@ SET(MYSOURCE
     shipupdatecallback.cpp
     )
 
+set(MYRESOURCES
+    TextureMap/TextureMapping.qrc
+    )
+
 add_executable(${PROJECT_NAME}
     ${MYSOURCE}
     ${MYRESOURCES}
