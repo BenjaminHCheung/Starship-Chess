@@ -9,7 +9,7 @@ void ShipUpdateCallback::operator()(osg::Node* node, osg::NodeVisitor* nodevisit
 {
     if(mStarship->get_Defense() <= 0)
     {
-        osg::Geode* myGeode{node->asGeode()};
+        //osg::Geode* myGeode{node->asGeode()};
         //osg::ShapeDrawable myDrawable{myGeode->getDrawable()}
     }
     Vector3d newPosition{mStarship->get_position_node()->get_position()};
