@@ -613,12 +613,14 @@ void OSGWidget::build_object_lists()
 
 void OSGWidget::build_team_one_ship(Starship* myShip)
 {
-
+    osg::Vec4 teamOneColor{osg::Vec4(0.6f, 0.1f, 0.1f, 1.f)};
+    build_ship(myShip, teamOneColor);
 }
 
 void OSGWidget::build_team_two_ship(Starship* theirShip)
 {
-
+    osg::Vec4 teamTwoColor{osg::Vec4(0.1f, 0.1f, 0.6f, 1.f)};
+    build_ship(theirShip, teamTwoColor);
 }
 
 void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA)
@@ -642,5 +644,7 @@ void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA)
     set_stateSet_mode(stateSet, material);
 
     osg::PositionAttitudeTransform *transform = new osg::PositionAttitudeTransform;
-    transform->setUpdateCallback(new ShipUpdateCallback())
+    transform->setUpdateCallback(new ShipUpdateCallback(myStarship, drawnShip));
+    transform->addChild(geode);
+    mRoot->addChild(transform);
 }
