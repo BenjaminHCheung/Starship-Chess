@@ -7,7 +7,11 @@
 #include <osgViewer/ViewerEventHandlers>
 #include <osg/PositionAttitudeTransform>
 #include <osg/NodeVisitor>
+#include <osgDB/Registry>
 #include <osgDB/ReadFile>
+#include <osgDB/WriteFile>
+#include <osg/StateAttribute>
+#include <osg/BlendFunc>
 
 #include <QKeyEvent>
 #include <QPainter>
@@ -617,8 +621,10 @@ void OSGWidget::build_team_two_ship(Starship* theirShip)
 
 }
 
-void OSGWidget::build_ship(int size, PositionNodes* spawnPosition, osg::Vec4 colorRGBA)
+void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA)
 {
+    int size{myStarship->get_size()};
+    PositionNodes* spawnPosition{myStarship->get_position_node()};
     double radius{size * .15};
     osg::Vec3 position(spawnPosition->get_position().get_x_value(),
                        spawnPosition->get_position().get_y_value(),
@@ -629,8 +635,12 @@ void OSGWidget::build_ship(int size, PositionNodes* spawnPosition, osg::Vec4 col
 
     osg::Geode* geode = new osg::Geode;
     geode->addDrawable( drawnShip );
-//    osg::StateSet* stateSet{create_state_set(geode)};
-//    osg::Material* material{create_material()};
-//    set_stateSet_mode(stateSet, material);
+    osg::Material* material{create_material()};
+    osg::StateSet* stateSet{geode->getOrCreateStateSet()};
+    stateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+    stateSet->setAttributeAndModes(new osg::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA), osg::StateAttribute::ON);
+    set_stateSet_mode(stateSet, material);
 
+    osg::PositionAttitudeTransform *transform = new osg::PositionAttitudeTransform;
+    transform->setUpdateCallback(new ShipUpdateCallback())
 }

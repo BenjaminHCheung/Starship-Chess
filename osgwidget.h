@@ -85,7 +85,7 @@ private:
       void build_object_lists();
       void build_team_one_ship(Starship* myShip);
       void build_team_two_ship(Starship* theirShip);
-      void build_ship(int size, PositionNodes* spawnPosition, osg::Vec4 color);
+      void build_ship(Starship* myStarShip, osg::Vec4 color);
 };
 
 #endif

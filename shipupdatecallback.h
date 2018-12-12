@@ -11,11 +11,12 @@
 class ShipUpdateCallback: public osg::NodeCallback
 {
 public:
-    ShipUpdateCallback(Starship* starship);
+    ShipUpdateCallback(Starship* starship, osg::Drawable* drawable);
     virtual void operator()(osg::Node* node, osg::NodeVisitor* nodevisitor);
 
 protected:
     Starship* mStarship;
+    osg::ShapeDrawable* mShape;
 };
 
 #endif // SHIPUPDATECALLBACK_H
