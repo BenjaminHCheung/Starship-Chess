@@ -516,6 +516,17 @@ void OSGWidget::add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* g
                                          tertiaryNode->get_position().get_z_value());
 }
 
+void OSGWidget::create_planet_from_list(StellarBody* myPlanet)
+{
+    double radius{myPlanet->get_radius()};
+    const std::string textureName{myPlanet->get_texture_name()};
+    PositionNodes* position{myPlanet->get_position_node()};
+
+    osg::Geode* planetGeode{create_planet(radius, textureName, position)};
+
+    transform_sphere(planetGeode);
+}
+
 osg::Geode* OSGWidget::create_planet(double radius, const std::string textureName, PositionNodes* position)
 {
     osg::Geometry *planetSphere = new osg::Geometry;
