@@ -656,11 +656,8 @@ void OSGWidget::build_team_two_ship(Starship* theirShip)
 void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA)
 {
     int size{myStarship->get_size()};
-    PositionNodes* spawnPosition{myStarship->get_position_node()};
     double radius{size * .15};
-    osg::Vec3 position(spawnPosition->get_position().get_x_value(),
-                       spawnPosition->get_position().get_y_value(),
-                       spawnPosition->get_position().get_z_value());
+    osg::Vec3 position(0,0,0);
 
     osg::ShapeDrawable* drawnShip{generate_new_sphere(position, radius)};
     change_object_color(drawnShip, colorRGBA);
