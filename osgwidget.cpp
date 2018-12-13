@@ -54,7 +54,8 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
 
     draw_position_nodes();
     draw_position_grid();
-    mRoot->addChild(create_planet(.5, "TextureMap/Mars2.jpg", mSpaceBoard->get_node_pointer(0,0,0)));
+    mSpaceBoard->generate_default_lists();
+    build_object_lists();
 
     int xMinimumSize{100};
     int yMinimumSize{100};
