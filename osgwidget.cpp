@@ -605,8 +605,27 @@ void OSGWidget::build_object_lists()
 {
     std::vector<Starship*>* teamOne{mSpaceBoard->get_team_one_ships()};
     std::vector<Starship*>* teamTwo{mSpaceBoard->get_team_two_ships()};
-    std::vector<StellarBody*>* Planets{mSpaceBoard->get_stellar_body_lists()};
+    std::vector<StellarBody*>* planets{mSpaceBoard->get_stellar_body_lists()};
 
+    unsigned long long int teamOneSize{teamOne->size()};
+    unsigned long long int teamTwoSize{teamTwo->size()};
+    unsigned long long int planetListSize{planets->size()};
+
+    for(unsigned long long int listedObject{0}; listedObject < teamOneSize; listedObject++)
+    {
+        Starship* currentShip{ (*teamOne)[listedObject] };
+        build_team_one_ship(currentShip);
+    }
+    for(unsigned long long int listedObject{0}; listedObject < teamTwoSize; listedObject++)
+    {
+        Starship* currentShip{ (*teamTwo)[listedObject] };
+        build_team_two_ship(currentShip);
+    }
+    for(unsigned long long int listedObject{0}; listedObject < planetListSize; listedObject++)
+    {
+        StellarBody* currentPlanet{ (*planets)[listedObject] };
+        create_planet(currentPlanet);
+    }
 
 }
 
