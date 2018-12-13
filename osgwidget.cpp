@@ -524,7 +524,7 @@ void OSGWidget::create_planet_from_list(StellarBody* myPlanet)
 
     osg::Geode* planetGeode{create_planet(radius, textureName, position)};
 
-    transform_sphere(planetGeode);
+    mRoot->addChild(planetGeode);
 }
 
 osg::Geode* OSGWidget::create_planet(double radius, const std::string textureName, PositionNodes* position)
@@ -635,9 +635,8 @@ void OSGWidget::build_object_lists()
     for(unsigned long long int listedObject{0}; listedObject < planetListSize; listedObject++)
     {
         StellarBody* currentPlanet{ (*planets)[listedObject] };
-        create_planet(currentPlanet);
+        create_planet_from_list(currentPlanet);
     }
-
 }
 
 
