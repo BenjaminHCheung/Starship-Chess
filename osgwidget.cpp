@@ -10,6 +10,7 @@
 #include <osgDB/Registry>
 #include <osgDB/ReadFile>
 #include <osgDB/WriteFile>
+#include <osg/BlendFunc>
 
 #include <QKeyEvent>
 #include <QPainter>
@@ -52,12 +53,8 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
 
     draw_position_nodes();
     draw_position_grid();
-<<<<<<< HEAD
-    mRoot->addChild(create_planet(.5, "TextureMap.red_planet.jpg", mSpaceBoard->get_node_pointer(0,0,0)));
-=======
     mSpaceBoard->generate_default_lists();
     build_object_lists();
->>>>>>> buildLists
 
     int xMinimumSize{100};
     int yMinimumSize{100};
@@ -519,9 +516,6 @@ void OSGWidget::add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* g
                                          tertiaryNode->get_position().get_z_value());
 }
 
-<<<<<<< HEAD
-osg::Geode* OSGWidget::create_planet(double radius, const std::string& textureName, PositionNodes* position)
-=======
 void OSGWidget::create_planet_from_list(StellarBody* myPlanet)
 {
     double radius{myPlanet->get_radius()};
@@ -534,7 +528,6 @@ void OSGWidget::create_planet_from_list(StellarBody* myPlanet)
 }
 
 osg::Geode* OSGWidget::create_planet(double radius, const std::string textureName, PositionNodes* position)
->>>>>>> buildLists
 {
     osg::Geometry *planetSphere = new osg::Geometry;
     osg::Vec3 center{osg::Vec3(position->get_position().get_x_value(),
