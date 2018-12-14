@@ -6,11 +6,10 @@
 #include <osgViewer/View>
 #include <osgViewer/ViewerEventHandlers>
 #include <osg/PositionAttitudeTransform>
-
 #include <osg/NodeVisitor>
+#include <osgDB/Registry>
 #include <osgDB/ReadFile>
 #include <osgDB/WriteFile>
-#include <osg/Texture2D>
 
 #include <QKeyEvent>
 #include <QPainter>
@@ -19,6 +18,7 @@
 #include <string>
 
 #include "sphereupdatecallback.h"
+#include "shipupdatecallback.h"
 
 OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     QOpenGLWidget{ parent,flags },
@@ -52,7 +52,12 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
 
     draw_position_nodes();
     draw_position_grid();
+<<<<<<< HEAD
     mRoot->addChild(create_planet(.5, "TextureMap.red_planet.jpg", mSpaceBoard->get_node_pointer(0,0,0)));
+=======
+    mSpaceBoard->generate_default_lists();
+    build_object_lists();
+>>>>>>> buildLists
 
     int xMinimumSize{100};
     int yMinimumSize{100};
@@ -514,7 +519,22 @@ void OSGWidget::add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* g
                                          tertiaryNode->get_position().get_z_value());
 }
 
+<<<<<<< HEAD
 osg::Geode* OSGWidget::create_planet(double radius, const std::string& textureName, PositionNodes* position)
+=======
+void OSGWidget::create_planet_from_list(StellarBody* myPlanet)
+{
+    double radius{myPlanet->get_radius()};
+    const std::string textureName{myPlanet->get_texture_name()};
+    PositionNodes* position{myPlanet->get_position_node()};
+
+    osg::Geode* planetGeode{create_planet(radius, textureName, position)};
+
+    mRoot->addChild(planetGeode);
+}
+
+osg::Geode* OSGWidget::create_planet(double radius, const std::string textureName, PositionNodes* position)
+>>>>>>> buildLists
 {
     osg::Geometry *planetSphere = new osg::Geometry;
     osg::Vec3 center{osg::Vec3(position->get_position().get_x_value(),
@@ -597,4 +617,67 @@ osg::Geode* OSGWidget::create_planet(double radius, const std::string& textureNa
     geodePlanet->addDrawable( planetSphere );
 
     return( geodePlanet );
+}
+
+void OSGWidget::build_object_lists()
+{
+    std::vector<Starship*>* teamOne{mSpaceBoard->get_team_one_ships()};
+    std::vector<Starship*>* teamTwo{mSpaceBoard->get_team_two_ships()};
+    std::vector<StellarBody*>* planets{mSpaceBoard->get_stellar_body_lists()};
+
+    unsigned long long int teamOneSize{teamOne->size()};
+    unsigned long long int teamTwoSize{teamTwo->size()};
+    unsigned long long int planetListSize{planets->size()};
+
+    for(unsigned long long int listedObject{0}; listedObject < teamOneSize; listedObject++)
+    {
+        Starship* currentShip{ (*teamOne)[listedObject] };
+        build_team_one_ship(currentShip);
+    }
+    for(unsigned long long int listedObject{0}; listedObject < teamTwoSize; listedObject++)
+    {
+        Starship* currentShip{ (*teamTwo)[listedObject] };
+        build_team_two_ship(currentShip);
+    }
+    for(unsigned long long int listedObject{0}; listedObject < planetListSize; listedObject++)
+    {
+        StellarBody* currentPlanet{ (*planets)[listedObject] };
+        create_planet_from_list(currentPlanet);
+    }
+}
+
+
+void OSGWidget::build_team_one_ship(Starship* myShip)
+{
+    osg::Vec4 teamOneColor{osg::Vec4(0.6f, 0.1f, 0.1f, 1.f)};
+    build_ship(myShip, teamOneColor);
+}
+
+void OSGWidget::build_team_two_ship(Starship* theirShip)
+{
+    osg::Vec4 teamTwoColor{osg::Vec4(0.1f, 0.1f, 0.6f, 1.f)};
+    build_ship(theirShip, teamTwoColor);
+}
+
+void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA)
+{
+    int size{myStarship->get_size()};
+    double radius{size * .15};
+    osg::Vec3 position(0,0,0);
+
+    osg::ShapeDrawable* drawnShip{generate_new_sphere(position, radius)};
+    change_object_color(drawnShip, colorRGBA);
+
+    osg::Geode* geode = new osg::Geode;
+    geode->addDrawable( drawnShip );
+    osg::Material* material{create_material()};
+    osg::StateSet* stateSet{geode->getOrCreateStateSet()};
+    stateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+    stateSet->setAttributeAndModes(new osg::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA), osg::StateAttribute::ON);
+    set_stateSet_mode(stateSet, material);
+
+    osg::PositionAttitudeTransform *transform = new osg::PositionAttitudeTransform;
+    transform->setUpdateCallback(new ShipUpdateCallback(myStarship, drawnShip));
+    transform->addChild(geode);
+    mRoot->addChild(transform);
 }

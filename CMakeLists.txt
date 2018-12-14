@@ -32,6 +32,12 @@ SET(MYSOURCE
     osgwidget.cpp
     sphereupdatecallback.h
     sphereupdatecallback.cpp
+    shipupdatecallback.h
+    shipupdatecallback.cpp
+    )
+
+set(MYRESOURCES
+    TextureMap/TextureMapping.qrc
     )
 
 set( MYRESOURCES TextureMap)
