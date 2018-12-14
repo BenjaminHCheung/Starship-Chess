@@ -18,3 +18,5 @@ void ShipUpdateCallback::operator()(osg::Node* node, osg::NodeVisitor* nodevisit
     pat->setPosition(position);
     traverse(node, nodevisitor);
 }
+
+
