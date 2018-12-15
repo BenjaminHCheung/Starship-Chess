@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindowform.h"
 #include "osgwidget.h"
+#include "teamonemenu.h"
+#include "teamtwomenu.h"
 
 #include <QDockWidget>
 #include <QToolBar>
@@ -12,20 +14,29 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     mMainWindowUI->setupUi(this);
 
+    mDockWidgetOne = new QDockWidget("TeamOneMenu", this);
+    mDockWidgetTwo = new QDockWidget("TeamTwoMenu", this);
+    this->addDockWidget(Qt::LeftDockWidgetArea, mDockWidgetOne);
+    this->addDockWidget(Qt::RightDockWidgetArea, mDockWidgetTwo);
+    mTeamOneMenu = new TeamOneMenu(this);
+    mTeamTwoMenu = new TeamTwoMenu(this);
+    mDockWidgetOne->setWidget(mTeamOneMenu);
+    mDockWidgetTwo->setWidget(mTeamTwoMenu);
+
     mOSGWidget = new OSGWidget{this};
     this->setCentralWidget(mOSGWidget);
 }
 
 void MainWindow::update_settings()
 {
-    if(mDockWidget->isHidden())
-    {
-        mDockWidget->setVisible(true);
-    }
-    else
-    {
-        mDockWidget->setVisible(false);
-    }
+    //if(mDockWidget->isHidden())
+    //{
+    //    mDockWidget->setVisible(true);
+    //}
+    //else
+    //{
+    //    mDockWidget->setVisible(false);
+    //}
 }
 
 void MainWindow::update_play_pause()

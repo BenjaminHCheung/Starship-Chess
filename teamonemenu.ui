@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>233</width>
-    <height>411</height>
+    <width>219</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>20</x>
      <y>20</y>
      <width>190</width>
-     <height>371</height>
+     <height>441</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -39,6 +39,9 @@
     </item>
     <item>
      <widget class="QComboBox" name="ShipType">
+      <property name="maxVisibleItems">
+       <number>4</number>
+      </property>
       <item>
        <property name="text">
         <string>BattleShip</string>
@@ -64,7 +67,7 @@
     <item>
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>TextLabel</string>
+       <string>Starting Position:</string>
       </property>
      </widget>
     </item>
@@ -103,9 +106,9 @@
      </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="addButton">
       <property name="text">
-       <string>Starting Position:</string>
+       <string>Add Ship</string>
       </property>
      </widget>
     </item>
@@ -134,14 +137,14 @@
       <item>
        <widget class="QPushButton" name="pushButton_3">
         <property name="text">
-         <string>Starting Position:</string>
+         <string>Clear Fleet</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>Starting Position:</string>
+         <string>Remove Ship</string>
         </property>
        </widget>
       </item>

@@ -33,8 +33,12 @@ signals:
 private:
     Ui::MainWindowForm *mMainWindowUI;
     OSGWidget* mOSGWidget{nullptr};
-    QDockWidget* mDockWidget;
-    QWidget* mSettings;
+    QDockWidget* mDockWidgetOne;
+    QDockWidget* mDockWidgetTwo;
+    QDockWidget* mDockWidgetThree;
+    QWidget* mTeamOneMenu;
+    QWidget* mTeamTwoMenu;
+    QWidget* mPlanetMenu;
     QAction* mPlayPause{nullptr};
 
     bool mPause{true};

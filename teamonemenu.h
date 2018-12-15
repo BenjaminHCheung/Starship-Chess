@@ -2,6 +2,7 @@
 #define TEAMONEMENU_H
 
 #include <QDialog>
+#include <string>
 
 namespace Ui {
 class TeamOneMenu;
@@ -17,6 +18,9 @@ public:
 
 private:
     Ui::TeamOneMenu *ui;
+
+private slots:
+    void on_addButton_pressed(std::string shipType, int XPosition, int YPosition, int ZPosition);
 };
 
 #endif // TEAMONEMENU_H
