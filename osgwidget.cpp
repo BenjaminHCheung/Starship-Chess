@@ -102,6 +102,19 @@ void OSGWidget::clear_team_two()
     clear_team_two_drawables();
 }
 
+void OSGWidget::add_planet(int size, int xPosition, int yPosition, int zPosition)
+{
+    mSpaceBoard->add_stellar_body(size, xPosition, yPosition, zPosition);
+    StellarBody* newPlanet{(*mSpaceBoard->get_stellar_body_lists())[mSpaceBoard->get_stellar_body_lists()->size() - 1]};
+    create_planet_from_list(newPlanet);
+}
+
+void OSGWidget::clear_planets()
+{
+    mSpaceBoard->clear_planet_list();
+    clear_planet_drawables();
+}
+
 void OSGWidget::timerEvent(QTimerEvent *)
 {
     update_widget();
