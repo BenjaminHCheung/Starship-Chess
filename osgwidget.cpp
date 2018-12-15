@@ -32,23 +32,8 @@ OSGWidget::OSGWidget( QWidget* parent, Qt::WindowFlags flags ):
     , mRoot{ new osg::Group }
     , mSpaceBoard{ new SpaceBoard}
 {
-    int viewPortX{ 0 };
-    int viewPortY{ 0 };
-    osg::Camera* camera{ generate_camera_viewport(viewPortX, viewPortY) };
-    osg::Vec4 cameraClearColorRGBA{ osg::Vec4(0.f, 0.f, .5f, 1.f) };
-    change_camera_color_and_transparency(camera, cameraClearColorRGBA);
-
-    float cameraFieldOfViewInY{ 45 };
-    float nearZLimit{ 1 };
-    float farZLimit{ 1000 };
-    change_camera_perspective(camera, cameraFieldOfViewInY, nearZLimit, farZLimit);
-    change_graphics_context(camera);
-    setup_mView_with_camera(camera);
-
-    osg::Vec3d positionEye{osg::Vec3d(0.0,22.0,3.0)};
-    osg::Vec3d positionCenter{osg::Vec3d(0,0,0)};
-    osg::Vec3d upVector{osg::Vec3d(0,0,1)};
-    generate_trackball_manipulator(positionEye, positionCenter, upVector);
+    generate_camera_viewport();
+    generate_trackball_manipulator();
     setup_threads();
 
     draw_position_nodes();
@@ -285,12 +270,21 @@ bool OSGWidget::event( QEvent* event )
     return handled;
 }
 
-osg::Camera* OSGWidget::generate_camera_viewport(int viewPortX, int viewPortY)
+void OSGWidget::generate_camera_viewport()
 {
+    int viewPortX{ 0 };
+    int viewPortY{ 0 };
 	osg::Camera* camera = new osg::Camera;
     auto pixelRatio{ this->devicePixelRatio()};
 	camera->setViewport(viewPortX, viewPortY, this->width() * pixelRatio, this->height() * pixelRatio);
-	return camera;
+    osg::Vec4 cameraClearColorRGBA{ osg::Vec4(0.f, 0.f, .5f, 1.f) };
+    change_camera_color_and_transparency(camera, cameraClearColorRGBA);
+    float cameraFieldOfViewInY{ 45 };
+    float nearZLimit{ 1 };
+    float farZLimit{ 1000 };
+    change_camera_perspective(camera, cameraFieldOfViewInY, nearZLimit, farZLimit);
+    change_graphics_context(camera);
+    setup_mView_with_camera(camera);
 }
 
 void OSGWidget::change_camera_color_and_transparency(osg::Camera* camera, osg::Vec4 clearColor)
@@ -316,8 +310,11 @@ void OSGWidget::setup_mView_with_camera(osg::Camera* camera)
     mView->addEventHandler( new osgViewer::StatsHandler );
 }
 
-void OSGWidget::generate_trackball_manipulator(osg::Vec3d positionEye, osg::Vec3d positionCenter, osg::Vec3d upVector)
+void OSGWidget::generate_trackball_manipulator()
 {
+    osg::Vec3d positionEye{osg::Vec3d(0.0,22.0,3.0)};
+    osg::Vec3d positionCenter{osg::Vec3d(0,0,0)};
+    osg::Vec3d upVector{osg::Vec3d(0,0,1)};
     osg::ref_ptr<osgGA::TrackballManipulator> manipulator = new osgGA::TrackballManipulator;
     manipulator->setAllowThrow( false );
     manipulator->setHomePosition(positionEye, positionCenter, upVector);

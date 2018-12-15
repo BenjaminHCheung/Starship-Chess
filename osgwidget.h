@@ -65,12 +65,12 @@ private:
     std::vector<osg::PositionAttitudeTransform*> mTeamTwoGeodeList;
     std::vector<osg::Geode*> mPlanetGeodeList;
 
-    osg::Camera* generate_camera_viewport(int viewPortX, int viewPortY);
+    void generate_camera_viewport();
     void change_camera_color_and_transparency(osg::Camera* camera, osg::Vec4 clearColor);
     void change_camera_perspective(osg::Camera* camera, float fieldOfViewInY, float nearZLimit, float farZLimit);
     void change_graphics_context(osg::Camera* camera);
     void setup_mView_with_camera(osg::Camera* camera);
-    void generate_trackball_manipulator(osg::Vec3d positionEye, osg::Vec3d positionCenter, osg::Vec3d upVector);
+    void generate_trackball_manipulator();
     void setup_threads();
     osg::ShapeDrawable* generate_new_sphere(osg::Vec3 sphereOrigin , float sphereRadius);
     void change_object_color(osg::ShapeDrawable* drawnObject, osg::Vec4 shapeColor);
