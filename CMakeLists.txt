@@ -34,6 +34,12 @@ SET(MYSOURCE
     sphereupdatecallback.cpp
     shipupdatecallback.h
     shipupdatecallback.cpp
+    teamonemenu.h
+    teamonemenu.cpp
+    teamonemenu.ui
+    teamtwomenu.h
+    teamtwomenu.cpp
+    teamtwomenu.ui
     )
 
 set(MYRESOURCES
