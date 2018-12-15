@@ -115,6 +115,17 @@ void OSGWidget::clear_planets()
     clear_planet_drawables();
 }
 
+void OSGWidget::reset_simulation()
+{
+    mSpaceBoard->clear_planet_list();
+    mSpaceBoard->clear_team_lists();
+    mSpaceBoard->generate_default_lists();
+    clear_team_one_drawables();
+    clear_team_two_drawables();
+    clear_planet_drawables();
+    build_object_lists();
+}
+
 void OSGWidget::timerEvent(QTimerEvent *)
 {
     update_widget();

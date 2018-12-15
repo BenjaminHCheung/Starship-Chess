@@ -33,6 +33,7 @@ public slots:
     void clear_team_two();
     void add_planet(int size, int xPosition, int yPosition, int zPosition);
     void clear_planets();
+    void reset_simulation();
 
 protected:
     void timerEvent(QTimerEvent *);

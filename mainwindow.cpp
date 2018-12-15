@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mDockWidgetThree = new QDockWidget("PlanetMenu", this);
     this->addDockWidget(Qt::RightDockWidgetArea, mDockWidgetOne);
     this->addDockWidget(Qt::LeftDockWidgetArea, mDockWidgetTwo);
-    this->addDockWidget(Qt::BottomDockWidgetArea, mDockWidgetThree);
+    this->addDockWidget(Qt::TopDockWidgetArea, mDockWidgetThree);
     mTeamOneMenu = new TeamOneMenu(this);
     mTeamTwoMenu = new TeamTwoMenu(this);
     mPlanetMenu = new PlanetMenu(this);
@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mOSGWidget = new OSGWidget{this};
     this->setCentralWidget(mOSGWidget);
-    mOSGWidget->setMinimumWidth( 1400 );
-    mOSGWidget->setMinimumHeight( 1000 );
+    mOSGWidget->setMinimumWidth( 1300 );
+    mOSGWidget->setMinimumHeight( 800 );
 
     connect(mTeamOneMenu, SIGNAL(add_ship(int, int, int, int)), mOSGWidget, SLOT(add_ship_team_one(int, int, int, int)));
     connect(mTeamTwoMenu, SIGNAL(add_ship(int, int, int, int)), mOSGWidget, SLOT(add_ship_team_two(int, int, int, int)));
@@ -42,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mTeamTwoMenu, SIGNAL(clear_player_two_fleet()), mOSGWidget, SLOT(clear_team_two()));
     connect(mPlanetMenu, SIGNAL(add_planets(int, int, int, int)), mOSGWidget, SLOT(add_planet(int, int ,int, int)));
     connect(mPlanetMenu, SIGNAL(clear_planets()), mOSGWidget, SLOT(clear_planets()));
+    connect(this, SIGNAL(restart_simulation()), mOSGWidget, SLOT())
+
+    create_toolbar();
 }
 
 void MainWindow::toggle_players_editor()
@@ -82,7 +85,7 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::reset_simulation()
 {
-    emit(update_simulation());
+    emit(restart_simulation());
 }
 
 void MainWindow::create_toolbar()

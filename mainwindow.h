@@ -27,7 +27,7 @@ public slots:
     void on_actionExit_triggered();
 
 signals:
-    void update_simulation();
+    void restart_simulation();
 
 private:
     Ui::MainWindowForm *mMainWindowUI;
