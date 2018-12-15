@@ -535,6 +535,7 @@ void OSGWidget::create_planet_from_list(StellarBody* myPlanet)
     osg::Geode* planetGeode{create_planet(radius, textureName, position)};
 
     mRoot->addChild(planetGeode);
+    mPlanetGeodeList.push_back(planetGeode);
 }
 
 osg::Geode* OSGWidget::create_planet(double radius, const std::string textureName, PositionNodes* position)
@@ -656,10 +657,31 @@ void OSGWidget::build_planets()
     }
 }
 
-void OSGWidget::clear_team_one_drawables();
-void OSGWidget::clear_team_two_drawables();
-void OSGWidget::clear_planet_drawables();
+void OSGWidget::clear_team_one_drawables()
+{
+    for(unsigned long long int iterator{mTeamOneGeodeList.size()}; iterator > 0; --iterator)
+    {
+        mRoot->removeChild(static_cast<osg::Node*>(mTeamOneGeodeList[iterator]));
+        mTeamOneGeodeList.pop_back();
+    }
+}
 
+void OSGWidget::clear_team_two_drawables()
+{
+    for(unsigned long long int iterator{mTeamTwoGeodeList.size()}; iterator > 0; --iterator)
+    {
+        mRoot->removeChild(static_cast<osg::Node*>(mTeamTwoGeodeList[iterator]));
+        mTeamTwoGeodeList.pop_back();
+    }
+}
+void OSGWidget::clear_planet_drawables()
+{
+    for(unsigned long long int iterator{mPlanetGeodeList.size()}; iterator > 0; --iterator)
+    {
+        mRoot->removeChild(static_cast<osg::Node*>(mPlanetGeodeList[iterator]));
+        mPlanetGeodeList.pop_back();
+    }
+}
 
 void OSGWidget::build_object_lists()
 {
@@ -671,16 +693,16 @@ void OSGWidget::build_object_lists()
 void OSGWidget::build_team_one_ship(Starship* myShip)
 {
     osg::Vec4 teamOneColor{osg::Vec4(0.6f, 0.1f, 0.1f, 1.f)};
-    build_ship(myShip, teamOneColor);
+    build_ship(myShip, teamOneColor, &mTeamOneGeodeList);
 }
 
 void OSGWidget::build_team_two_ship(Starship* theirShip)
 {
     osg::Vec4 teamTwoColor{osg::Vec4(0.1f, 0.1f, 0.6f, 1.f)};
-    build_ship(theirShip, teamTwoColor);
+    build_ship(theirShip, teamTwoColor, &mTeamTwoGeodeList);
 }
 
-void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA)
+void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA, std::vector<osg::Geode*>* teamList)
 {
     int size{myStarship->get_size()};
     double radius{size * .15};
@@ -701,4 +723,5 @@ void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA)
     transform->setUpdateCallback(new ShipUpdateCallback(myStarship, drawnShip));
     transform->addChild(geode);
     mRoot->addChild(transform);
+    (*teamList).push_back(geode);
 }

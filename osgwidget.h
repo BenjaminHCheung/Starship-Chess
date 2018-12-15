@@ -26,8 +26,6 @@ public:
 
     virtual ~OSGWidget();
 
-    void set_pause(bool pause);
-
 public slots:
     void add_ship_team_one(int shipClass, int xPosition, int yPosition, int zPosition);
     void add_ship_team_two(int shipClass, int xPosition, int yPosition, int zPosition);
@@ -60,6 +58,9 @@ private:
     osg::ref_ptr<osg::Group> mRoot;
     int mTimerId{0};
     SpaceBoard* mSpaceBoard;
+    std::vector<osg::Geode*> mTeamOneGeodeList;
+    std::vector<osg::Geode*> mTeamTwoGeodeList;
+    std::vector<osg::Geode*> mPlanetGeodeList;
 
     osg::Camera* generate_camera_viewport(int viewPortX, int viewPortY);
     void change_camera_color_and_transparency(osg::Camera* camera, osg::Vec4 clearColor);
@@ -101,7 +102,7 @@ private:
     void build_object_lists();
     void build_team_one_ship(Starship* myShip);
     void build_team_two_ship(Starship* theirShip);
-    void build_ship(Starship* myStarShip, osg::Vec4 color);
+    void build_ship(Starship* myStarShip, osg::Vec4 color, std::vector<osg::Geode*>* teamList);
 };
 
 #endif
