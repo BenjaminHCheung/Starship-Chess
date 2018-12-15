@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mTeamTwoMenu, SIGNAL(clear_player_two_fleet()), mOSGWidget, SLOT(clear_team_two()));
     connect(mPlanetMenu, SIGNAL(add_planets(int, int, int, int)), mOSGWidget, SLOT(add_planet(int, int ,int, int)));
     connect(mPlanetMenu, SIGNAL(clear_planets()), mOSGWidget, SLOT(clear_planets()));
-    connect(this, SIGNAL(restart_simulation()), mOSGWidget, SLOT())
+    connect(this, SIGNAL(restart_simulation()), mOSGWidget, SLOT(reset_simulation()));
 
     create_toolbar();
 }
