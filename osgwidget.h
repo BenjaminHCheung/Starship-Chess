@@ -86,8 +86,18 @@ private:
     void add_x_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int yMax, int zMax);
     void add_y_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int xMax, int zMax);
     void add_z_line_to_grid(osg::Vec3Array* vertexArray, osg::Geometry* geom, int iterator, int xMax, int yMax);
+
     void create_planet_from_list(StellarBody* myPlanet);
     osg::Geode* create_planet(double radius, const std::string textureName, PositionNodes* position);
+
+    void build_team_one();
+    void build_team_two();
+    void build_planets();
+
+    void clear_team_one_drawables();
+    void clear_team_two_drawables();
+    void clear_planet_drawables();
+
     void build_object_lists();
     void build_team_one_ship(Starship* myShip);
     void build_team_two_ship(Starship* theirShip);
