@@ -622,40 +622,50 @@ osg::Geode* OSGWidget::create_planet(double radius, const std::string textureNam
     return( geodePlanet );
 }
 
-void build_team_one();
-void build_team_two();
-void build_planets();
-
-void clear_team_one_drawables();
-void clear_team_two_drawables();
-void clear_planet_drawables();
-
-
-void OSGWidget::build_object_lists()
+void OSGWidget::build_team_one()
 {
     std::vector<Starship*>* teamOne{mSpaceBoard->get_team_one_ships()};
-    std::vector<Starship*>* teamTwo{mSpaceBoard->get_team_two_ships()};
-    std::vector<StellarBody*>* planets{mSpaceBoard->get_stellar_body_lists()};
-
     unsigned long long int teamOneSize{teamOne->size()};
-    unsigned long long int teamTwoSize{teamTwo->size()};
-    unsigned long long int planetListSize{planets->size()};
-
     for(unsigned long long int listedObject{0}; listedObject < teamOneSize; listedObject++)
     {
         Starship* currentShip{ (*teamOne)[listedObject] };
         build_team_one_ship(currentShip);
     }
+}
+
+void OSGWidget::build_team_two()
+{
+    std::vector<Starship*>* teamTwo{mSpaceBoard->get_team_two_ships()};
+    unsigned long long int teamTwoSize{teamTwo->size()};
     for(unsigned long long int listedObject{0}; listedObject < teamTwoSize; listedObject++)
     {
         Starship* currentShip{ (*teamTwo)[listedObject] };
         build_team_two_ship(currentShip);
     }
+}
+
+void OSGWidget::build_planets()
+{
+
+    std::vector<StellarBody*>* planets{mSpaceBoard->get_stellar_body_lists()};
+    unsigned long long int planetListSize{planets->size()};
     for(unsigned long long int listedObject{0}; listedObject < planetListSize; listedObject++)
     {
         StellarBody* currentPlanet{ (*planets)[listedObject] };
         create_planet_from_list(currentPlanet);
     }
+}
+
+void OSGWidget::clear_team_one_drawables();
+void OSGWidget::clear_team_two_drawables();
+void OSGWidget::clear_planet_drawables();
+
+
+void OSGWidget::build_object_lists()
+{
+    build_team_one();
+    build_team_two();
+    build_planets();
 }
 
 void OSGWidget::build_team_one_ship(Starship* myShip)
