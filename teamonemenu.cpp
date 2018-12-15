@@ -64,15 +64,10 @@ void TeamOneMenu::on_PlayerOneFleet_clicked(const QModelIndex &index)
 
 void TeamOneMenu::on_ClearButton_clicked()
 {
-
+    emit(clear_player_one_fleet());
 }
 
 void TeamOneMenu::on_RemoveButton_clicked()
-{
-
-}
-
-void TeamOneMenu::on_tableWidget_clicked(const QModelIndex &index)
 {
 
 }

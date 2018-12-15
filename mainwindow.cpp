@@ -23,8 +23,12 @@ MainWindow::MainWindow(QWidget *parent) :
     mDockWidgetOne->setWidget(mTeamOneMenu);
     mDockWidgetTwo->setWidget(mTeamTwoMenu);
 
+    mDockWidgetOne->resize(250, 500);
+    mDockWidgetTwo->resize(250, 500);
+
     mOSGWidget = new OSGWidget{this};
     this->setCentralWidget(mOSGWidget);
+    mOSGWidget->resize(1000, 500);
 }
 
 void MainWindow::update_settings()
