@@ -13,25 +13,44 @@ TeamOneMenu::~TeamOneMenu()
     delete ui;
 }
 
-void TeamOneMenu::on_addButton_pressed(std::string shipType, int XPosition, int YPosition, int ZPosition)
+void TeamOneMenu::on_ShipType_activated(const QString &arg1)
 {
-    int classNumber{0};
-    if(shipType == "BattleShip")
-    {
-        classNumber = 4;
-    }
-    else if(shipType == "Cruiser")
-    {
-        classNumber = 3;
-    }
-    else if(shipType == "Destroyer")
-    {
-        classNumber = 2;
-    }
-    else if(shipType == "Corvette")
-    {
-        classNumber = 1;
-    }
 
-    this->open().
+}
+
+void TeamOneMenu::on_XPosition_valueChanged(int arg1)
+{
+
+}
+
+void TeamOneMenu::on_YPosition_valueChanged(int arg1)
+{
+
+}
+
+void TeamOneMenu::on_ZPosition_valueChanged(int arg1)
+{
+
+}
+
+void TeamOneMenu::on_addButton_clicked()
+{
+    ui->XPosition->setValue(0);
+    ui->YPosition->setValue(0);
+    ui->ZPosition->setValue(0);
+}
+
+void TeamOneMenu::on_PlayerOneFleet_clicked(const QModelIndex &index)
+{
+
+}
+
+void TeamOneMenu::on_ClearButton_clicked()
+{
+
+}
+
+void TeamOneMenu::on_RemoveButton_clicked()
+{
+
 }

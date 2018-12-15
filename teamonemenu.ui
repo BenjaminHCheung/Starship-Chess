@@ -135,14 +135,14 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="ClearButton">
         <property name="text">
          <string>Clear Fleet</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="RemoveButton">
         <property name="text">
          <string>Remove Ship</string>
         </property>
