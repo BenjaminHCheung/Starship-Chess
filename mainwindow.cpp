@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mDockWidgetOne = new QDockWidget("TeamOneMenu", this);
     mDockWidgetTwo = new QDockWidget("TeamTwoMenu", this);
-    this->addDockWidget(Qt::LeftDockWidgetArea, mDockWidgetOne);
-    this->addDockWidget(Qt::RightDockWidgetArea, mDockWidgetTwo);
+    this->addDockWidget(Qt::RightDockWidgetArea, mDockWidgetOne);
+    this->addDockWidget(Qt::LeftDockWidgetArea, mDockWidgetTwo);
     mTeamOneMenu = new TeamOneMenu(this);
     mTeamTwoMenu = new TeamTwoMenu(this);
     mDockWidgetOne->setWidget(mTeamOneMenu);
