@@ -133,9 +133,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QTableWidget" name="MyTable"/>
-    </item>
-    <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="ClearButton">
