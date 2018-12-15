@@ -17,7 +17,7 @@ public:
 
 signals:
     void add_ship(int, int, int, int);
-    void clear_player_one_fleet();
+    void clear_player_two_fleet();
 
 private:
     Ui::TeamTwoMenu *ui;

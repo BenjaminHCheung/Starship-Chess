@@ -30,6 +30,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(mOSGWidget);
     mOSGWidget->setMinimumWidth( 1400 );
     mOSGWidget->setMinimumHeight( 1000 );
+
+    connect(mTeamOneMenu, SIGNAL(add_ship(int, int, int, int)), mOSGWidget, SLOT(add_ship_team_one(int, int, int, int)));
+    connect(mTeamTwoMenu, SIGNAL(add_ship(int, int, int, int)), mOSGWidget, SLOT(add_ship_team_two(int, int, int, int)));
+    connect(mTeamOneMenu, SIGNAL(clear_player_one_fleet()), mOSGWidget, SLOT(clear_team_one()));
+    connect(mTeamTwoMenu, SIGNAL(clear_player_two_fleet()), mOSGWidget, SLOT(clear_team_two()));
 }
 
 void MainWindow::update_settings()

@@ -64,7 +64,7 @@ void TeamTwoMenu::on_PlayerTwoFleet_clicked(const QModelIndex &index)
 
 void TeamTwoMenu::on_ClearButton_clicked()
 {
-        emit(clear_player_one_fleet());
+        emit(clear_player_two_fleet());
 }
 
 void TeamTwoMenu::on_RemoveButton_clicked()
