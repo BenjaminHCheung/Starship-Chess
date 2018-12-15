@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>219</width>
+    <width>345</width>
     <height>486</height>
    </rect>
   </property>
@@ -131,6 +131,9 @@
        <enum>QAbstractItemView::SelectItems</enum>
       </property>
      </widget>
+    </item>
+    <item>
+     <widget class="QTableWidget" name="MyTable"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">

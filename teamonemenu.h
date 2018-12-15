@@ -20,7 +20,7 @@ private:
     Ui::TeamOneMenu *ui;
 
 private slots:
-    void on_ShipType_activated(const QString shipClass);
+    void on_ShipType_activated(const QString &shipClass);
     void on_XPosition_valueChanged(int xPosition);
     void on_YPosition_valueChanged(int yPosition);
     void on_ZPosition_valueChanged(int zPosition);
@@ -28,7 +28,7 @@ private slots:
     void on_PlayerOneFleet_clicked(const QModelIndex &index);
     void on_ClearButton_clicked();
     void on_RemoveButton_clicked();
-    void on_XPosition_editingFinished();
+    void on_tableWidget_clicked(const QModelIndex &index);
 };
 
 #endif // TEAMONEMENU_H
