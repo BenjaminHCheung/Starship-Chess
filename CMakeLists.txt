@@ -45,11 +45,7 @@ SET(MYSOURCE
     planetmenu.ui
     )
 
-set(MYRESOURCES
-    TextureMap/TextureMapping.qrc
-    )
-
-set( MYRESOURCES TextureMap)
+set(MYRESOURCES icons/icons.qrc)
 
 add_executable(${PROJECT_NAME}
     ${MYSOURCE}

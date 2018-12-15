@@ -19,9 +19,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void update_settings();
-    void update_play_pause();
-    void transfer_settings_to_physics_space();
+    void toggle_players_editor();
+    void toggle_planet_editor();
     void reset_simulation();
 
 public slots:

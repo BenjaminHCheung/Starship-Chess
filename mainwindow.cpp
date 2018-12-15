@@ -44,34 +44,32 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mPlanetMenu, SIGNAL(clear_planets()), mOSGWidget, SLOT(clear_planets()));
 }
 
-//void MainWindow::update_settings()
-//{
-//    if(mDockWidget->isHidden())
-//    {
-//        mDockWidget->setVisible(true);
-//    }
-//    else
-//    {
-//        mDockWidget->setVisible(false);
-//    }
-//}
-
-/*void MainWindow::update_play_pause()
+void MainWindow::toggle_players_editor()
 {
-    if(mPause)
+    if(mDockWidgetOne->isHidden() || mDockWidgetTwo->isHidden())
     {
-        mPause = false;
-        const QIcon pauseIcon = QIcon(":newIcons/Pause.png");
-        mPlayPause->setIcon(pauseIcon);
+        mDockWidgetOne->setVisible(true);
+        mDockWidgetTwo->setVisible(true);
     }
     else
     {
-        mPause = true;
-        const QIcon playIcon = QIcon(":newIcons/PlayButton.png");
-        mPlayPause->setIcon(playIcon);
+        mDockWidgetOne->setVisible(false);
+        mDockWidgetTwo->setVisible(false);
     }
 }
-*/
+
+void MainWindow::toggle_planet_editor()
+{
+    if(mDockWidgetThree->isHidden())
+    {
+        mDockWidgetThree->setVisible(true);
+    }
+    else
+    {
+        mDockWidgetThree->setVisible(false);
+    }
+}
+
 MainWindow::~MainWindow()
 {
     delete mMainWindowUI;
@@ -82,10 +80,10 @@ void MainWindow::on_actionExit_triggered()
     QApplication::quit();
 }
 
-//void MainWindow::reset_simulation()
-//{
-//    emit(update_simulation());
-//}
+void MainWindow::reset_simulation()
+{
+    emit(update_simulation());
+}
 
 void MainWindow::create_toolbar()
 {
@@ -100,30 +98,30 @@ void MainWindow::create_toolbar()
 
 QAction * MainWindow::create_player_menu_action()
 {
-    const QIcon PlayerIcon = QIcon(":myicons/Settings-icon.png");
-    QAction *settingsAction = new QAction(settingsIcon, tr("&Change Settings"), this);
-    settingsAction->setShortcut(QKeySequence{tr("Ctrl+B")});
-    settingsAction->setStatusTip(tr("Change Settings"));
-    connect(settingsAction, &QAction::triggered, this, &MainWindow::update_settings);
+    const QIcon playerIcon = QIcon(":icons/Player.png");
+    QAction *playerAction = new QAction(playerIcon, tr("&Toggle Player Menues"), this);
+    playerAction->setShortcut(QKeySequence{tr("Ctrl+M")});
+    playerAction->setStatusTip(tr("Edit Teams"));
+    connect(playerAction, &QAction::triggered, this, &MainWindow::toggle_players_editor);
 
-    return settingsAction;
+    return playerAction;
 }
 
-//QAction * MainWindow::create_play_pause_action()
-//{
-//    const QIcon playPauseIcon = QIcon(":newIcons/PlayButton.png");
-//    QAction *playPauseAction = new QAction(playPauseIcon, tr("&Play/Pause"),this);
-//    playPauseAction->setShortcut(QKeySequence{tr("Ctrl+P")});
-//    connect(playPauseAction, &QAction::triggered, this, &MainWindow::update_play_pause);
-//    return playPauseAction;
-//}
+QAction * MainWindow::create_planet_menu_action()
+{
+    const QIcon planetIcon = QIcon(":icons/Planet.jpeg");
+    QAction *planetAction = new QAction(planetIcon, tr("&Play/Pause"),this);
+    planetAction->setShortcut(QKeySequence{tr("Ctrl+P")});
+    connect(planetAction, &QAction::triggered, this, &MainWindow::toggle_planet_editor);
+    return planetAction;
+}
 
-//QAction * MainWindow::create_reset_action()
-//{
-//    const QIcon resetIcon = QIcon(":newIcons/Reset.jpg");
-//    QAction *resetAction = new QAction(resetIcon, tr("&Reset"),this);
-//    resetAction->setShortcut(QKeySequence{tr("Ctrl+R")});
-//    connect(resetAction, &QAction::triggered, this, &MainWindow::reset_simulation);
-//    return resetAction;
-//}
+QAction * MainWindow::create_reset_action()
+{
+    const QIcon resetIcon = QIcon(":icons/reset.jpeg");
+    QAction *resetAction = new QAction(resetIcon, tr("&Reset"),this);
+    resetAction->setShortcut(QKeySequence{tr("Ctrl+R")});
+    connect(resetAction, &QAction::triggered, this, &MainWindow::reset_simulation);
+    return resetAction;
+}
 

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>Planet.jpeg</file>
+        <file>Player.png</file>
+        <file>reset.jpeg</file>
+    </qresource>
+</RCC>
