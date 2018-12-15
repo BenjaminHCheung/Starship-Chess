@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>203</width>
+    <width>233</width>
     <height>411</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>160</width>
+     <width>190</width>
      <height>371</height>
     </rect>
    </property>
@@ -105,7 +105,7 @@
     <item>
      <widget class="QPushButton" name="pushButton">
       <property name="text">
-       <string>Add Ship</string>
+       <string>Starting Position:</string>
       </property>
      </widget>
     </item>
@@ -134,14 +134,14 @@
       <item>
        <widget class="QPushButton" name="pushButton_3">
         <property name="text">
-         <string>Clear Fleet</string>
+         <string>Starting Position:</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>Remove Ship</string>
+         <string>Starting Position:</string>
         </property>
        </widget>
       </item>
