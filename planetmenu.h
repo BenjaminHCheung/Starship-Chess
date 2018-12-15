@@ -15,6 +15,10 @@ public:
     explicit PlanetMenu(QWidget *parent = nullptr);
     ~PlanetMenu();
 
+signals:
+    void add_planets(int, int, int, int);
+    void clear_planets();
+
 private slots:
     void on_PlanetSize_valueChanged(int size);
     void on_xPosition_valueChanged(int xPosition);

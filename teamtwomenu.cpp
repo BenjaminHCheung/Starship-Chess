@@ -55,6 +55,9 @@ void TeamTwoMenu::on_pushButton_clicked()
     ui->YPosition->setValue(0);
     ui->ZPosition->setValue(0);
     ui->ShipType->setCurrentIndex(0);
+    mXPosition = 0;
+    mYPosition = 0;
+    mZPosition = 0;
 }
 
 void TeamTwoMenu::on_PlayerTwoFleet_clicked(const QModelIndex &index)
