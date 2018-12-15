@@ -15,6 +15,9 @@ public:
     explicit PlanetMenu(QWidget *parent = nullptr);
     ~PlanetMenu();
 
+private slots:
+    void on_PlanetSize_valueChanged(int arg1);
+
 private:
     Ui::PlanetMenu *ui;
 };

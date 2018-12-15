@@ -40,6 +40,9 @@ SET(MYSOURCE
     teamtwomenu.h
     teamtwomenu.cpp
     teamtwomenu.ui
+    planetmenu.h
+    planetmenu.cpp
+    planetmenu.ui
     )
 
 set(MYRESOURCES

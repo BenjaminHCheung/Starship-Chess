@@ -12,3 +12,9 @@ PlanetMenu::~PlanetMenu()
 {
     delete ui;
 }
+
+void PlanetMenu::on_PlanetSize_valueChanged(int arg1)
+{
+
+}
+
