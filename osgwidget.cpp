@@ -665,26 +665,26 @@ void OSGWidget::build_planets()
 
 void OSGWidget::clear_team_one_drawables()
 {
-    for(unsigned long long int iterator{mTeamOneGeodeList.size()}; iterator > 0; --iterator)
+    for(unsigned long long int iterator{mTeamOneGeodeList.size()}; iterator > 0; iterator--)
     {
-        mRoot->removeChild(static_cast<osg::Node*>(mTeamOneGeodeList[iterator]));
+        mRoot->removeChild(mTeamOneGeodeList[iterator - 1]);
         mTeamOneGeodeList.pop_back();
     }
 }
 
 void OSGWidget::clear_team_two_drawables()
 {
-    for(unsigned long long int iterator{mTeamTwoGeodeList.size()}; iterator > 0; --iterator)
+    for(unsigned long long int iterator{mTeamTwoGeodeList.size()}; iterator > 0; iterator--)
     {
-        mRoot->removeChild(static_cast<osg::Node*>(mTeamTwoGeodeList[iterator]));
+        mRoot->removeChild(mTeamTwoGeodeList[iterator - 1]);
         mTeamTwoGeodeList.pop_back();
     }
 }
 void OSGWidget::clear_planet_drawables()
 {
-    for(unsigned long long int iterator{mPlanetGeodeList.size()}; iterator > 0; --iterator)
+    for(unsigned long long int iterator{mPlanetGeodeList.size()}; iterator > 0; iterator--)
     {
-        mRoot->removeChild(static_cast<osg::Node*>(mPlanetGeodeList[iterator]));
+        mRoot->removeChild(mPlanetGeodeList[iterator -1]);
         mPlanetGeodeList.pop_back();
     }
 }
@@ -708,7 +708,7 @@ void OSGWidget::build_team_two_ship(Starship* theirShip)
     build_ship(theirShip, teamTwoColor, &mTeamTwoGeodeList);
 }
 
-void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA, std::vector<osg::Geode*>* teamList)
+void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA, std::vector<osg::PositionAttitudeTransform*>* teamList)
 {
     int size{myStarship->get_size()};
     double radius{size * .15};
@@ -729,5 +729,5 @@ void OSGWidget::build_ship(Starship* myStarship, osg::Vec4 colorRGBA, std::vecto
     transform->setUpdateCallback(new ShipUpdateCallback(myStarship, drawnShip));
     transform->addChild(geode);
     mRoot->addChild(transform);
-    (*teamList).push_back(geode);
+    (*teamList).push_back(transform);
 }

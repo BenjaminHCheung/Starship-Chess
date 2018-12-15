@@ -58,8 +58,8 @@ private:
     osg::ref_ptr<osg::Group> mRoot;
     int mTimerId{0};
     SpaceBoard* mSpaceBoard;
-    std::vector<osg::Geode*> mTeamOneGeodeList;
-    std::vector<osg::Geode*> mTeamTwoGeodeList;
+    std::vector<osg::PositionAttitudeTransform*> mTeamOneGeodeList;
+    std::vector<osg::PositionAttitudeTransform*> mTeamTwoGeodeList;
     std::vector<osg::Geode*> mPlanetGeodeList;
 
     osg::Camera* generate_camera_viewport(int viewPortX, int viewPortY);
@@ -102,7 +102,7 @@ private:
     void build_object_lists();
     void build_team_one_ship(Starship* myShip);
     void build_team_two_ship(Starship* theirShip);
-    void build_ship(Starship* myStarShip, osg::Vec4 color, std::vector<osg::Geode*>* teamList);
+    void build_ship(Starship* myStarShip, osg::Vec4 color, std::vector<osg::PositionAttitudeTransform*>* teamList);
 };
 
 #endif
