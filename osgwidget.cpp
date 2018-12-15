@@ -78,22 +78,28 @@ void OSGWidget::add_ship_team_one(int shipClass, int xPosition, int yPosition, i
 {
     int teamNumber{1};
     mSpaceBoard->add_starship(teamNumber, shipClass, xPosition, yPosition, zPosition);
+    Starship* newShip{(*mSpaceBoard->get_team_one_ships())[mSpaceBoard->get_team_one_ships()->size() - 1]};
+    build_team_one_ship(newShip);
 }
 
 void OSGWidget::add_ship_team_two(int shipClass, int xPosition, int yPosition, int zPosition)
 {
     int teamNumber{2};
     mSpaceBoard->add_starship(teamNumber, shipClass, xPosition, yPosition, zPosition);
+    Starship* newShip{(*mSpaceBoard->get_team_two_ships())[mSpaceBoard->get_team_two_ships()->size() - 1]};
+    build_team_two_ship(newShip);
 }
 
 void OSGWidget::clear_team_one()
 {
     mSpaceBoard->clear_team_one();
+    clear_team_one_drawables();
 }
 
 void OSGWidget::clear_team_two()
 {
     mSpaceBoard->clear_team_two();
+    clear_team_two_drawables();
 }
 
 void OSGWidget::timerEvent(QTimerEvent *)
