@@ -3,6 +3,7 @@
 #include "osgwidget.h"
 #include "teamonemenu.h"
 #include "teamtwomenu.h"
+#include "planetmenu.h"
 
 #include <QDockWidget>
 #include <QToolBar>
@@ -14,14 +15,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     mMainWindowUI->setupUi(this);
 
-    mDockWidgetOne = new QDockWidget("TeamOneMenu", this);
-    mDockWidgetTwo = new QDockWidget("TeamTwoMenu", this);
+    mDockWidgetOne = new QDockWidget("PlayerOneMenu", this);
+    mDockWidgetTwo = new QDockWidget("PlayerTwoMenu", this);
+    mDockWidgetThree = new QDockWidget("PlanetMenu", this);
     this->addDockWidget(Qt::RightDockWidgetArea, mDockWidgetOne);
     this->addDockWidget(Qt::LeftDockWidgetArea, mDockWidgetTwo);
+    this->addDockWidget(Qt::BottomDockWidgetArea, mDockWidgetThree);
     mTeamOneMenu = new TeamOneMenu(this);
     mTeamTwoMenu = new TeamTwoMenu(this);
+    mPlanetMenu = new PlanetMenu(this);
     mDockWidgetOne->setWidget(mTeamOneMenu);
     mDockWidgetTwo->setWidget(mTeamTwoMenu);
+    mDockWidgetThree->setWidget(mPlanetMenu);
 
     mDockWidgetOne->setMinimumWidth( 250 );
     mDockWidgetTwo->setMinimumWidth( 250 );

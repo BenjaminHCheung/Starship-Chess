@@ -33,16 +33,12 @@ signals:
 private:
     Ui::MainWindowForm *mMainWindowUI;
     OSGWidget* mOSGWidget{nullptr};
-    QDockWidget* mDockWidgetOne;
-    QDockWidget* mDockWidgetTwo;
-    QDockWidget* mDockWidgetThree;
-    QWidget* mTeamOneMenu;
-    QWidget* mTeamTwoMenu;
-    QWidget* mPlanetMenu;
-    QAction* mPlayPause{nullptr};
-
-    bool mPause{true};
-
+    QDockWidget* mDockWidgetOne{nullptr};
+    QDockWidget* mDockWidgetTwo{nullptr};
+    QDockWidget* mDockWidgetThree{nullptr};
+    QWidget* mTeamOneMenu{nullptr};
+    QWidget* mTeamTwoMenu{nullptr};
+    QWidget* mPlanetMenu{nullptr};
 protected:
     void create_toolbar();
     QAction *create_settings_action();
