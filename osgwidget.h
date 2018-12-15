@@ -59,7 +59,6 @@ private:
     osg::ref_ptr<osgViewer::View> mView;
     osg::ref_ptr<osg::Group> mRoot;
     int mTimerId{0};
-    bool mPause{true};
     SpaceBoard* mSpaceBoard;
 
     osg::Camera* generate_camera_viewport(int viewPortX, int viewPortY);

@@ -359,14 +359,7 @@ void OSGWidget::set_mouse_tracking_on()
 
 void OSGWidget::update_widget()
 {
-    if(mPause)
-    {
-        this->update();
-    }
-    else
-    {
     this->update();
-    }
 }
 
 void OSGWidget::draw_position_nodes()
@@ -655,7 +648,6 @@ void OSGWidget::build_object_lists()
         create_planet_from_list(currentPlanet);
     }
 }
-
 
 void OSGWidget::build_team_one_ship(Starship* myShip)
 {
