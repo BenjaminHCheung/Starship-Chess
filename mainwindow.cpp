@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mTeamTwoMenu, SIGNAL(add_ship(int, int, int, int)), mOSGWidget, SLOT(add_ship_team_two(int, int, int, int)));
     connect(mTeamOneMenu, SIGNAL(clear_player_one_fleet()), mOSGWidget, SLOT(clear_team_one()));
     connect(mTeamTwoMenu, SIGNAL(clear_player_two_fleet()), mOSGWidget, SLOT(clear_team_two()));
+    connect(mPlanetMenu, SIGNAL(add_planets(int, int, int, int)), mOSGWidget, SLOT(add_planet(int, int ,int, int)));
+    connect(mPlanetMenu, SIGNAL(clear_planets()), mOSGWidget, SLOT(clear_planets()));
 }
 
 //void MainWindow::update_settings()

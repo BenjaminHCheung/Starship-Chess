@@ -31,6 +31,8 @@ public slots:
     void add_ship_team_two(int shipClass, int xPosition, int yPosition, int zPosition);
     void clear_team_one();
     void clear_team_two();
+    void add_planet(int size, int xPosition, int yPosition, int zPosition);
+    void clear_planets();
 
 protected:
     void timerEvent(QTimerEvent *);
