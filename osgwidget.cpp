@@ -74,9 +74,26 @@ OSGWidget::~OSGWidget()
     killTimer(mTimerId);
 }
 
-void OSGWidget::set_pause(bool pause)
+void OSGWidget::add_ship_team_one(int shipClass, int xPosition, int yPosition, int zPosition)
 {
-    mPause = pause;
+    int teamNumber{1};
+    mSpaceBoard->add_starship(teamNumber, shipClass, xPosition, yPosition, zPosition);
+}
+
+void OSGWidget::add_ship_team_two(int shipClass, int xPosition, int yPosition, int zPosition)
+{
+    int teamNumber{2};
+    mSpaceBoard->add_starship(teamNumber, shipClass, xPosition, yPosition, zPosition);
+}
+
+void OSGWidget::clear_team_one()
+{
+    mSpaceBoard->clear_team_one();
+}
+
+void OSGWidget::clear_team_two()
+{
+    mSpaceBoard->clear_team_two();
 }
 
 void OSGWidget::timerEvent(QTimerEvent *)
