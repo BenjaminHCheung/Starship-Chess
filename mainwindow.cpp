@@ -37,36 +37,34 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mTeamTwoMenu, SIGNAL(clear_player_two_fleet()), mOSGWidget, SLOT(clear_team_two()));
 }
 
-void MainWindow::update_settings()
-{
-    //if(mDockWidget->isHidden())
-    //{
-    //    mDockWidget->setVisible(true);
-    //}
-    //else
-    //{
-    //    mDockWidget->setVisible(false);
-    //}
-}
+//void MainWindow::update_settings()
+//{
+//    if(mDockWidget->isHidden())
+//    {
+//        mDockWidget->setVisible(true);
+//    }
+//    else
+//    {
+//        mDockWidget->setVisible(false);
+//    }
+//}
 
-void MainWindow::update_play_pause()
+/*void MainWindow::update_play_pause()
 {
     if(mPause)
     {
-        mOSGWidget->set_pause(false);
         mPause = false;
         const QIcon pauseIcon = QIcon(":newIcons/Pause.png");
         mPlayPause->setIcon(pauseIcon);
     }
     else
     {
-        mOSGWidget->set_pause(true);
         mPause = true;
         const QIcon playIcon = QIcon(":newIcons/PlayButton.png");
         mPlayPause->setIcon(playIcon);
     }
 }
-
+*/
 MainWindow::~MainWindow()
 {
     delete mMainWindowUI;
@@ -77,50 +75,49 @@ void MainWindow::on_actionExit_triggered()
     QApplication::quit();
 }
 
-void MainWindow::reset_simulation()
-{
-    emit(update_simulation());
-}
+//void MainWindow::reset_simulation()
+//{
+//    emit(update_simulation());
+//}
 
-void MainWindow::create_toolbar()
-{
-    QToolBar *toolBar = addToolBar(tr("My Actions"));
-    QAction *settingsAction = create_settings_action();
-    toolBar->addAction(settingsAction);
-    QAction *playPause = create_play_pause_action();
-    toolBar->addAction(playPause);
-    mPlayPause = playPause;
-    QAction *reset = create_reset_action();
-    toolBar->addAction(reset);
-}
+//void MainWindow::create_toolbar()
+//{
+//    QToolBar *toolBar = addToolBar(tr("My Actions"));
+//    QAction *settingsAction = create_settings_action();
+//    toolBar->addAction(settingsAction);
+//    QAction *playPause = create_play_pause_action();
+//    toolBar->addAction(playPause);
+//    mPlayPause = playPause;
+//    QAction *reset = create_reset_action();
+//    toolBar->addAction(reset);
+//}
 
-QAction * MainWindow::create_settings_action()
-{
-    const QIcon settingsIcon = QIcon(":myicons/Settings-icon.png");
-    QAction *settingsAction = new QAction(settingsIcon, tr("&Change Settings"), this);
-    settingsAction->setShortcut(QKeySequence{tr("Ctrl+B")});
-    settingsAction->setStatusTip(tr("Change Settings"));
-    connect(settingsAction, &QAction::triggered, this, &MainWindow::update_settings);
+//QAction * MainWindow::create_settings_action()
+//{
+//    const QIcon settingsIcon = QIcon(":myicons/Settings-icon.png");
+//    QAction *settingsAction = new QAction(settingsIcon, tr("&Change Settings"), this);
+//    settingsAction->setShortcut(QKeySequence{tr("Ctrl+B")});
+//    settingsAction->setStatusTip(tr("Change Settings"));
+//    connect(settingsAction, &QAction::triggered, this, &MainWindow::update_settings);
 
-    return settingsAction;
-}
+//    return settingsAction;
+//}
 
-QAction * MainWindow::create_play_pause_action()
-{
-    const QIcon playPauseIcon = QIcon(":newIcons/PlayButton.png");
-    QAction *playPauseAction = new QAction(playPauseIcon, tr("&Play/Pause"),this);
-    playPauseAction->setShortcut(QKeySequence{tr("Ctrl+P")});
-    connect(playPauseAction, &QAction::triggered, this, &MainWindow::update_play_pause);
-    return playPauseAction;
-}
+//QAction * MainWindow::create_play_pause_action()
+//{
+//    const QIcon playPauseIcon = QIcon(":newIcons/PlayButton.png");
+//    QAction *playPauseAction = new QAction(playPauseIcon, tr("&Play/Pause"),this);
+//    playPauseAction->setShortcut(QKeySequence{tr("Ctrl+P")});
+//    connect(playPauseAction, &QAction::triggered, this, &MainWindow::update_play_pause);
+//    return playPauseAction;
+//}
 
-QAction * MainWindow::create_reset_action()
-{
-    const QIcon resetIcon = QIcon(":newIcons/Reset.jpg");
-    QAction *resetAction = new QAction(resetIcon, tr("&Reset"),this);
-    resetAction->setShortcut(QKeySequence{tr("Ctrl+R")});
-    connect(resetAction, &QAction::triggered, this, &MainWindow::reset_simulation);
-    return resetAction;
-}
-
+//QAction * MainWindow::create_reset_action()
+//{
+//    const QIcon resetIcon = QIcon(":newIcons/Reset.jpg");
+//    QAction *resetAction = new QAction(resetIcon, tr("&Reset"),this);
+//    resetAction->setShortcut(QKeySequence{tr("Ctrl+R")});
+//    connect(resetAction, &QAction::triggered, this, &MainWindow::reset_simulation);
+//    return resetAction;
+//}
 
