@@ -87,28 +87,27 @@ void MainWindow::on_actionExit_triggered()
 //    emit(update_simulation());
 //}
 
-//void MainWindow::create_toolbar()
-//{
-//    QToolBar *toolBar = addToolBar(tr("My Actions"));
-//    QAction *settingsAction = create_settings_action();
-//    toolBar->addAction(settingsAction);
-//    QAction *playPause = create_play_pause_action();
-//    toolBar->addAction(playPause);
-//    mPlayPause = playPause;
-//    QAction *reset = create_reset_action();
-//    toolBar->addAction(reset);
-//}
+void MainWindow::create_toolbar()
+{
+    QToolBar *toolBar = addToolBar(tr("My Actions"));
+    QAction *playerAction = create_player_menu_action();
+    toolBar->addAction(playerAction);
+    QAction *planetAction = create_planet_menu_action();
+    toolBar->addAction(planetAction);
+    QAction *reset = create_reset_action();
+    toolBar->addAction(reset);
+}
 
-//QAction * MainWindow::create_settings_action()
-//{
-//    const QIcon settingsIcon = QIcon(":myicons/Settings-icon.png");
-//    QAction *settingsAction = new QAction(settingsIcon, tr("&Change Settings"), this);
-//    settingsAction->setShortcut(QKeySequence{tr("Ctrl+B")});
-//    settingsAction->setStatusTip(tr("Change Settings"));
-//    connect(settingsAction, &QAction::triggered, this, &MainWindow::update_settings);
+QAction * MainWindow::create_player_menu_action()
+{
+    const QIcon PlayerIcon = QIcon(":myicons/Settings-icon.png");
+    QAction *settingsAction = new QAction(settingsIcon, tr("&Change Settings"), this);
+    settingsAction->setShortcut(QKeySequence{tr("Ctrl+B")});
+    settingsAction->setStatusTip(tr("Change Settings"));
+    connect(settingsAction, &QAction::triggered, this, &MainWindow::update_settings);
 
-//    return settingsAction;
-//}
+    return settingsAction;
+}
 
 //QAction * MainWindow::create_play_pause_action()
 //{

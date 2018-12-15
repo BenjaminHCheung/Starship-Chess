@@ -41,8 +41,8 @@ private:
     QWidget* mPlanetMenu{nullptr};
 protected:
     void create_toolbar();
-    QAction *create_settings_action();
-    QAction *create_play_pause_action();
+    QAction *create_player_menu_action();
+    QAction *create_planet_menu_action();
     QAction *create_reset_action();
 };
 
